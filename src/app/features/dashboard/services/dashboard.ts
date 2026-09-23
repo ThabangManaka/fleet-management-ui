@@ -10,7 +10,7 @@ export class DashboardService {
 
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'https://localhost:YOUR_PORT/api/FleetDashboard';
+  private readonly apiUrl = 'http://localhost:5299/api/FleetDashboard';
 
   getDashboard(): Observable<FleetDashboard> {
     return this.http.get<FleetDashboard>(this.apiUrl);

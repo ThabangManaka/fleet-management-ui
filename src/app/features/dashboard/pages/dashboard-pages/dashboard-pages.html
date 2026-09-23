@@ -9,13 +9,13 @@
 
   @if (loading) {
 
-    <div class="loading">
+    <div class="state-card">
       Loading dashboard...
     </div>
 
   } @else if (error) {
 
-    <div class="error">
+    <div class="state-card error">
       Failed to load dashboard data.
     </div>
 
@@ -26,57 +26,87 @@
       <div class="stat-card">
         <span class="label">Total Vehicles</span>
         <strong>{{ dashboard.totalVehicles }}</strong>
+        <span class="description">
+          Fleet vehicles
+        </span>
       </div>
 
       <div class="stat-card">
         <span class="label">Available Vehicles</span>
         <strong>{{ dashboard.availableVehicles }}</strong>
+        <span class="description">
+          Ready for assignment
+        </span>
       </div>
 
       <div class="stat-card">
         <span class="label">Assigned Vehicles</span>
         <strong>{{ dashboard.assignedVehicles }}</strong>
+        <span class="description">
+          Currently assigned
+        </span>
       </div>
 
       <div class="stat-card">
-        <span class="label">In Maintenance</span>
+        <span class="label">Vehicles in Maintenance</span>
         <strong>{{ dashboard.vehiclesInMaintenance }}</strong>
+        <span class="description">
+          Maintenance status
+        </span>
       </div>
 
       <div class="stat-card">
         <span class="label">Total Drivers</span>
         <strong>{{ dashboard.totalDrivers }}</strong>
+        <span class="description">
+          Registered drivers
+        </span>
       </div>
 
       <div class="stat-card">
         <span class="label">Active Drivers</span>
         <strong>{{ dashboard.activeDrivers }}</strong>
+        <span class="description">
+          Currently active
+        </span>
       </div>
 
     </div>
 
+    <div class="section-title">
+      Financial Overview
+    </div>
+
     <div class="stats-grid">
 
-      <div class="stat-card">
+      <div class="stat-card financial">
         <span class="label">Fuel Cost</span>
         <strong>
           R {{ dashboard.totalFuelCost | number:'1.2-2' }}
         </strong>
       </div>
 
-      <div class="stat-card">
+      <div class="stat-card financial">
         <span class="label">Maintenance Cost</span>
         <strong>
           R {{ dashboard.totalMaintenanceCost | number:'1.2-2' }}
         </strong>
       </div>
 
-      <div class="stat-card">
-        <span class="label">Operating Cost</span>
+      <div class="stat-card financial">
+        <span class="label">Total Operating Cost</span>
         <strong>
           R {{ dashboard.totalOperatingCost | number:'1.2-2' }}
         </strong>
       </div>
+
+    </div>
+
+    <div class="section-title">
+      Operations
+    </div>
+
+    <div class="stats-grid">
 
       <div class="stat-card">
         <span class="label">Total Trips</span>
@@ -91,9 +121,9 @@
       </div>
 
       <div class="stat-card">
-        <span class="label">Utilization Rate</span>
+        <span class="label">Average Distance / Trip</span>
         <strong>
-          {{ dashboard.vehicleUtilizationRate | number:'1.0-2' }}%
+          {{ dashboard.averageDistancePerTrip | number:'1.0-2' }} km
         </strong>
       </div>
 

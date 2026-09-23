@@ -30,6 +30,7 @@ export class DashboardPages implements OnInit {
 
     this.dashboardService.getDashboard().subscribe({
       next: (response) => {
+        console.log(response)
         this.dashboard = response;
         this.loading = false;
       },

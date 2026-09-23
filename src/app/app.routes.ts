@@ -13,13 +13,12 @@ export const routes: Routes = [
         redirectTo: 'dashboard',
         pathMatch: 'full'
       },
-
-    //   {
-    //     path: 'dashboard',
-    //     loadComponent: () =>
-    //       import('./features/dashboard/pages/dashboard-page/dashboard-page.component')
-    //         .then(m => m.DashboardPageComponent)
-    //   }
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./features/dashboard/pages/dashboard-pages/dashboard-pages')
+            .then(m => m.DashboardPages)
+      }
     ]
   },
 
