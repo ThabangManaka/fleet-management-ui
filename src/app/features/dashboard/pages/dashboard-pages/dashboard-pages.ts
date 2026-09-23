@@ -1,10 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { DashboardService } from '../../services/dashboard';
 import { FleetDashboard } from '../../models/fleet-dashboard.model';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard-pages',
-  imports: [],
+  standalone: true,
+  imports: [DecimalPipe],
   templateUrl: './dashboard-pages.html',
   styleUrl: './dashboard-pages.scss',
 })
