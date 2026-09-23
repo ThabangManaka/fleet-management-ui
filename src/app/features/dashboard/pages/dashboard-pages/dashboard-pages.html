@@ -1,1 +1,104 @@
-<p>dashboard-pages works!</p>
+<div class="dashboard">
+
+  <div class="page-header">
+    <div>
+      <h1>Dashboard</h1>
+      <p>Fleet overview and operational performance</p>
+    </div>
+  </div>
+
+  @if (loading) {
+
+    <div class="loading">
+      Loading dashboard...
+    </div>
+
+  } @else if (error) {
+
+    <div class="error">
+      Failed to load dashboard data.
+    </div>
+
+  } @else if (dashboard) {
+
+    <div class="stats-grid">
+
+      <div class="stat-card">
+        <span class="label">Total Vehicles</span>
+        <strong>{{ dashboard.totalVehicles }}</strong>
+      </div>
+
+      <div class="stat-card">
+        <span class="label">Available Vehicles</span>
+        <strong>{{ dashboard.availableVehicles }}</strong>
+      </div>
+
+      <div class="stat-card">
+        <span class="label">Assigned Vehicles</span>
+        <strong>{{ dashboard.assignedVehicles }}</strong>
+      </div>
+
+      <div class="stat-card">
+        <span class="label">In Maintenance</span>
+        <strong>{{ dashboard.vehiclesInMaintenance }}</strong>
+      </div>
+
+      <div class="stat-card">
+        <span class="label">Total Drivers</span>
+        <strong>{{ dashboard.totalDrivers }}</strong>
+      </div>
+
+      <div class="stat-card">
+        <span class="label">Active Drivers</span>
+        <strong>{{ dashboard.activeDrivers }}</strong>
+      </div>
+
+    </div>
+
+    <div class="stats-grid">
+
+      <div class="stat-card">
+        <span class="label">Fuel Cost</span>
+        <strong>
+          R {{ dashboard.totalFuelCost | number:'1.2-2' }}
+        </strong>
+      </div>
+
+      <div class="stat-card">
+        <span class="label">Maintenance Cost</span>
+        <strong>
+          R {{ dashboard.totalMaintenanceCost | number:'1.2-2' }}
+        </strong>
+      </div>
+
+      <div class="stat-card">
+        <span class="label">Operating Cost</span>
+        <strong>
+          R {{ dashboard.totalOperatingCost | number:'1.2-2' }}
+        </strong>
+      </div>
+
+      <div class="stat-card">
+        <span class="label">Total Trips</span>
+        <strong>{{ dashboard.totalTrips }}</strong>
+      </div>
+
+      <div class="stat-card">
+        <span class="label">Distance Travelled</span>
+        <strong>
+          {{ dashboard.totalDistanceTravelled | number:'1.0-2' }} km
+        </strong>
+      </div>
+
+      <div class="stat-card">
+        <span class="label">Utilization Rate</span>
+        <strong>
+          {{ dashboard.vehicleUtilizationRate | number:'1.0-2' }}%
+        </strong>
+      </div>
+
+    </div>
+
+  }
+
+</div>
