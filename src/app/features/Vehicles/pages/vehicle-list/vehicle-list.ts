@@ -17,7 +17,7 @@ export class VehicleList implements OnInit {
 
   vehicles: Vehicle[] = [];
 
-  loading = true;
+  loading = false;
   error = false;
 
   ngOnInit(): void {
@@ -26,25 +26,36 @@ export class VehicleList implements OnInit {
 
   private loadVehicles(): void {
 
+    console.log('Starting vehicle request...');
+
     this.loading = true;
     this.error = false;
 
     this.vehicleService.getVehicles().subscribe({
-
       next: (response) => {
-        console.log('Vehicles:', response);
+
+        console.log('Vehicles API response:', response);
 
         this.vehicles = response;
+
         this.loading = false;
+
+        console.log('Loading:', this.loading);
       },
 
       error: (error) => {
-        console.error('Failed to load vehicles', error);
 
-        this.error = true;
+        console.error('Vehicle API error:', error);
+
         this.loading = false;
-      }
+        this.error = true;
 
+        console.log('Loading:', this.loading);
+      },
+
+      complete: () => {
+        console.log('Vehicle request completed');
+      }
     });
   }
 }
