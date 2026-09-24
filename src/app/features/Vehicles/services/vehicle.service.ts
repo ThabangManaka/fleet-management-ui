@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Vehicle } from '../models/vehicle.model';
+import { VehiclePerformance } from '../models/vehicle-performance.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,7 @@ export class VehicleService {
 
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl =
-    'https://localhost:YOUR_API_PORT/api/Vehicles';
+  private readonly apiUrl = 'http://localhost:5299/api/Vehicles';
 
   getVehicles(): Observable<Vehicle[]> {
     return this.http.get<Vehicle[]>(this.apiUrl);
