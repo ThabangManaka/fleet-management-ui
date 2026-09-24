@@ -1,1 +1,194 @@
-<p>vehicle-list works!</p>
+<div class="vehicles-page">
+
+  <div class="page-header">
+
+    <div>
+      <h1>Vehicles</h1>
+      <p>Manage and monitor your fleet vehicles</p>
+    </div>
+
+    <button class="primary-button">
+      + Add Vehicle
+    </button>
+
+  </div>
+
+  @if (loading) {
+
+    <div class="state-card">
+      Loading vehicles...
+    </div>
+
+  } @else if (error) {
+
+    <div class="state-card error">
+      Failed to load vehicles.
+    </div>
+
+  } @else {
+
+    <div class="toolbar">
+
+      <div class="search-box">
+        <input
+          type="text"
+          placeholder="Search registration, make or model..."
+        />
+      </div>
+
+      <select>
+        <option value="">All statuses</option>
+        <option value="0">Available</option>
+        <option value="1">Assigned</option>
+        <option value="2">In Maintenance</option>
+      </select>
+
+    </div>
+
+    <div class="vehicle-table-container">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Vehicle</th>
+            <th>Registration</th>
+            <th>VIN</th>
+            <th>Year</th>
+            <th>Mileage</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          @for (vehicle of vehicles; track vehicle.id) {
+
+            <tr>
+
+              <td>
+                <div class="vehicle-info">
+
+                  <div class="vehicle-icon">
+                    🚗
+                  </div>
+
+                  <div>
+                    <strong>
+                      {{ vehicle.make }} {{ vehicle.model }}
+                    </strong>
+
+                    <span>
+                      Fuel type: {{ vehicle.fuelType }}
+                    </span>
+                  </div>
+
+                </div>
+              </td>
+
+              <td>
+                <strong>
+                  {{ vehicle.registrationNumber }}
+                </strong>
+              </td>
+
+              <td>
+                {{ vehicle.vin }}
+              </td>
+
+              <td>
+                {{ vehicle.year }}
+              </td>
+
+              <td>
+                {{ vehicle.mileage | number:'1.0-0' }} km
+              </td>
+
+              <td>
+
+                <span
+                  class="status"
+                  [class.available]="vehicle.status === 0"
+                  [class.assigned]="vehicle.status === 1"
+                  [class.maintenance]="vehicle.status === 2">
+
+                  @switch (vehicle.status) {
+
+                    @case (0) {
+                      Available
+                    }
+
+                    @case (1) {
+                      Assigned
+                    }
+
+                    @case (2) {
+                      Maintenance
+                    }
+
+                    @default {
+                      Unknown
+                    }
+
+                  }
+
+                </span>
+
+              </td>
+
+              <td>
+
+                <div class="actions">
+
+                  <button
+                    class="action-button"
+                    title="View vehicle">
+
+                    View
+                  </button>
+
+                  <button
+                    class="action-button"
+                    title="Edit vehicle">
+
+                    Edit
+                  </button>
+
+                </div>
+
+              </td>
+
+            </tr>
+
+          }
+
+          @empty {
+
+            <tr>
+
+              <td colspan="7" class="empty">
+                No vehicles found.
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <div class="table-footer">
+
+      <span>
+        Showing {{ vehicles.length }} vehicle(s)
+      </span>
+
+    </div>
+
+  }
+
+</div>
