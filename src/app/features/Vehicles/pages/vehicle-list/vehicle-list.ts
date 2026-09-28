@@ -1,4 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef,
+  inject
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { DecimalPipe } from '@angular/common';
 
@@ -15,6 +20,7 @@ import { Vehicle } from '../../models/vehicle.model';
 export class VehicleList implements OnInit {
 
   private readonly vehicleService = inject(VehicleService);
+  private readonly cdr = inject(ChangeDetectorRef);
   private readonly router = inject(Router);
   vehicles: Vehicle[] = [];
 
@@ -25,40 +31,42 @@ export class VehicleList implements OnInit {
     this.loadVehicles();
   }
 
-  private loadVehicles(): void {
+private loadVehicles(): void {
 
-    console.log('Starting vehicle request...');
+  console.log('Starting vehicle request...');
 
-    this.loading = true;
-    this.error = false;
+  this.loading = true;
+  this.error = false;
 
-    this.vehicleService.getVehicles().subscribe({
-      next: (response) => {
+  this.vehicleService.getVehicles().subscribe({
+    next: (response) => {
 
-        console.log('Vehicles API response:', response);
+      console.log('Vehicles API response:', response);
 
-        this.vehicles = response;
+      this.vehicles = response;
+      this.loading = false;
 
-        this.loading = false;
+      this.cdr.detectChanges();
 
-        console.log('Loading:', this.loading);
-      },
+      console.log('Vehicles loaded:', this.vehicles.length);
+      console.log('Loading:', this.loading);
+    },
 
-      error: (error) => {
+    error: (error) => {
 
-        console.error('Vehicle API error:', error);
+      console.error('Vehicle API error:', error);
 
-        this.loading = false;
-        this.error = true;
+      this.loading = false;
+      this.error = true;
 
-        console.log('Loading:', this.loading);
-      },
+      this.cdr.detectChanges();
+    },
 
-      complete: () => {
-        console.log('Vehicle request completed');
-      }
-    });
-  }
+    complete: () => {
+      console.log('Vehicle request completed');
+    }
+  });
+}
 
     viewVehicle(id: string): void {
     this.router.navigate(['/vehicles', id]);
