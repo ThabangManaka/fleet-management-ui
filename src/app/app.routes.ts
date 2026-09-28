@@ -24,6 +24,12 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/Vehicles/pages/vehicle-list/vehicle-list')
             .then(m => m.VehicleList)
+      },
+      {
+        path: 'vehicles/:id',
+        loadComponent: () =>
+          import('./features/Vehicles/pages/vehicle-details/vehicle-details')
+            .then(m => m.VehicleDetails)
       }
     ]
   },

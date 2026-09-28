@@ -1,4 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { DecimalPipe } from '@angular/common';
 
 import { VehicleService } from '../../services/vehicle.service';
@@ -14,7 +15,7 @@ import { Vehicle } from '../../models/vehicle.model';
 export class VehicleList implements OnInit {
 
   private readonly vehicleService = inject(VehicleService);
-
+  private readonly router = inject(Router);
   vehicles: Vehicle[] = [];
 
   loading = false;
@@ -58,4 +59,8 @@ export class VehicleList implements OnInit {
       }
     });
   }
+
+    viewVehicle(id: string): void {
+    this.router.navigate(['/vehicles', id]);
+    }
 }

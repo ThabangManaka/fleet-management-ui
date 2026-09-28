@@ -1,0 +1,201 @@
+<div class="vehicle-details-page">
+
+  @if (loading) {
+
+    <div class="state-card">
+      Loading vehicle...
+    </div>
+
+  } @else if (error) {
+
+    <div class="state-card error">
+      Failed to load vehicle.
+    </div>
+
+  } @else if (vehicle) {
+
+    <div class="page-header">
+
+      <div>
+
+        <button
+          class="back-button"
+          (click)="goBack()">
+          ← Back to Vehicles
+        </button>
+
+        <h1>
+          {{ vehicle.make }} {{ vehicle.model }}
+        </h1>
+
+        <p>
+          {{ vehicle.registrationNumber }}
+        </p>
+
+      </div>
+
+      <span
+        class="status"
+        [class.available]="vehicle.status === 0"
+        [class.assigned]="vehicle.status === 1"
+        [class.maintenance]="vehicle.status === 2">
+
+        {{ getStatusLabel(vehicle.status) }}
+
+      </span>
+
+    </div>
+
+
+    <!-- Vehicle Information -->
+
+    <section class="section">
+
+      <h2>Vehicle Information</h2>
+
+      <div class="details-grid">
+
+        <div class="detail-card">
+          <span>Registration Number</span>
+          <strong>{{ vehicle.registrationNumber }}</strong>
+        </div>
+
+        <div class="detail-card">
+          <span>VIN</span>
+          <strong>{{ vehicle.vin }}</strong>
+        </div>
+
+        <div class="detail-card">
+          <span>Make</span>
+          <strong>{{ vehicle.make }}</strong>
+        </div>
+
+        <div class="detail-card">
+          <span>Model</span>
+          <strong>{{ vehicle.model }}</strong>
+        </div>
+
+        <div class="detail-card">
+          <span>Year</span>
+          <strong>{{ vehicle.year }}</strong>
+        </div>
+
+        <div class="detail-card">
+          <span>Fuel Type</span>
+          <strong>
+            {{ getFuelTypeLabel(vehicle.fuelType) }}
+          </strong>
+        </div>
+
+        <div class="detail-card">
+          <span>Current Mileage</span>
+          <strong>
+            {{ vehicle.mileage | number:'1.0-0' }} km
+          </strong>
+        </div>
+
+        <div class="detail-card">
+          <span>Status</span>
+          <strong>
+            {{ getStatusLabel(vehicle.status) }}
+          </strong>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- Performance -->
+
+    @if (performance) {
+
+      <section class="section">
+
+        <h2>Performance Overview</h2>
+
+        <div class="performance-grid">
+
+          <div class="metric-card">
+            <span>Fuel Efficiency</span>
+
+            <strong>
+              {{ performance.fuelEfficiency | number:'1.2-2' }}
+              km/L
+            </strong>
+          </div>
+
+
+          <div class="metric-card">
+            <span>Fuel Cost / 100 km</span>
+
+            <strong>
+              R{{ performance.fuelCostPer100Km | number:'1.2-2' }}
+            </strong>
+          </div>
+
+
+          <div class="metric-card">
+            <span>Total Fuel Cost</span>
+
+            <strong>
+              R{{ performance.totalFuelCost | number:'1.2-2' }}
+            </strong>
+          </div>
+
+
+          <div class="metric-card">
+            <span>Maintenance Cost</span>
+
+            <strong>
+              R{{ performance.totalMaintenanceCost | number:'1.2-2' }}
+            </strong>
+          </div>
+
+
+          <div class="metric-card">
+            <span>Operating Cost</span>
+
+            <strong>
+              R{{ performance.totalOperatingCost | number:'1.2-2' }}
+            </strong>
+          </div>
+
+
+          <div class="metric-card">
+            <span>Total Trips</span>
+
+            <strong>
+              {{ performance.totalTrips }}
+            </strong>
+          </div>
+
+
+          <div class="metric-card">
+            <span>Distance Travelled</span>
+
+            <strong>
+              {{ performance.totalDistanceTravelled | number:'1.0-0' }}
+              km
+            </strong>
+          </div>
+
+
+          <div class="metric-card">
+            <span>Current Mileage</span>
+
+            <strong>
+              {{ performance.currentMileage | number:'1.0-0' }}
+              km
+            </strong>
+          </div>
+
+        </div>
+
+      </section>
+
+    }
+
+  }
+
+</div>
