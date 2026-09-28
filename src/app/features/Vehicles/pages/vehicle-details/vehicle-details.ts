@@ -1,4 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef,
+  inject
+} from '@angular/core';
+
 import { DecimalPipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -18,6 +24,7 @@ export class VehicleDetails implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly vehicleService = inject(VehicleService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   vehicle: Vehicle | null = null;
   performance: VehiclePerformance | null = null;
@@ -26,10 +33,16 @@ export class VehicleDetails implements OnInit {
   error = false;
 
   ngOnInit(): void {
+
+    console.log('VehicleDetails initialized');
+
     const id = this.route.snapshot.paramMap.get('id');
+
+    console.log('Vehicle ID from route:', id);
 
     if (!id) {
       this.error = true;
+      this.cdr.detectChanges();
       return;
     }
 
@@ -37,35 +50,65 @@ export class VehicleDetails implements OnInit {
   }
 
   private loadVehicle(id: string): void {
+
+    console.log('Loading vehicle:', id);
+
     this.loading = true;
     this.error = false;
 
     this.vehicleService.getVehicle(id).subscribe({
+
       next: (vehicle) => {
+
+        console.log('Vehicle API response:', vehicle);
+
         this.vehicle = vehicle;
+
+        console.log('Vehicle loaded successfully');
+
+        this.cdr.detectChanges();
+
         this.loadPerformance(id);
       },
 
       error: (error) => {
-        console.error('Vehicle details error:', error);
+
+        console.error('Vehicle API error:', error);
 
         this.loading = false;
         this.error = true;
+
+        this.cdr.detectChanges();
       }
     });
   }
 
   private loadPerformance(id: string): void {
+
+    console.log('Loading vehicle performance:', id);
+
     this.vehicleService.getVehiclePerformance(id).subscribe({
+
       next: (performance) => {
+
+        console.log('Performance API response:', performance);
+
         this.performance = performance;
         this.loading = false;
+
+        console.log('Performance loaded');
+        console.log('Loading:', this.loading);
+
+        this.cdr.detectChanges();
       },
 
       error: (error) => {
-        console.error('Vehicle performance error:', error);
+
+        console.error('Performance API error:', error);
 
         this.loading = false;
+
+        this.cdr.detectChanges();
       }
     });
   }
@@ -75,6 +118,7 @@ export class VehicleDetails implements OnInit {
   }
 
   getFuelTypeLabel(fuelType: number): string {
+
     switch (fuelType) {
       case 0:
         return 'Petrol';
@@ -94,6 +138,7 @@ export class VehicleDetails implements OnInit {
   }
 
   getStatusLabel(status: number): string {
+
     switch (status) {
       case 0:
         return 'Available';

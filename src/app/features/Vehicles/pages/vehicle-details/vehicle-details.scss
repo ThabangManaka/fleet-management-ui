@@ -1,0 +1,293 @@
+.vehicle-details-page {
+  padding: 24px;
+}
+
+/* =========================
+   Header
+   ========================= */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 28px;
+}
+
+.back-button {
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin-bottom: 16px;
+
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.vehicle-title {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.vehicle-icon {
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #f3f4f6;
+  border-radius: 12px;
+
+  font-size: 26px;
+}
+
+.vehicle-title h1 {
+  margin: 0 0 4px;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.vehicle-title p {
+  margin: 0;
+  font-size: 14px;
+}
+
+
+/* =========================
+   Status
+   ========================= */
+
+.status {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 6px 12px;
+
+  border-radius: 999px;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.status.available {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status.assigned {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.status.maintenance {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+
+/* =========================
+   Sections
+   ========================= */
+
+.section {
+  margin-bottom: 28px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+
+  padding: 24px;
+}
+
+.section-header {
+  margin-bottom: 20px;
+}
+
+.section-header h2 {
+  margin: 0 0 4px;
+
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.section-header p {
+  margin: 0;
+
+  font-size: 14px;
+}
+
+
+/* =========================
+   Vehicle Information
+   ========================= */
+
+.details-grid {
+  display: grid;
+
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  gap: 16px;
+}
+
+.detail-card {
+  padding: 16px;
+
+  background: #f9fafb;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+}
+
+.detail-card span {
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.detail-card strong {
+  display: block;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  word-break: break-word;
+}
+
+
+/* =========================
+   Performance
+   ========================= */
+
+.performance-grid {
+  display: grid;
+
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  gap: 16px;
+}
+
+.metric-card {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  padding: 18px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+
+  background: #ffffff;
+}
+
+.metric-icon {
+  width: 42px;
+  height: 42px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #f3f4f6;
+
+  border-radius: 10px;
+
+  font-size: 20px;
+}
+
+.metric-card span {
+  display: block;
+
+  margin-bottom: 5px;
+
+  font-size: 12px;
+}
+
+.metric-card strong {
+  display: block;
+
+  font-size: 17px;
+  font-weight: 700;
+}
+
+
+/* =========================
+   Loading / Error
+   ========================= */
+
+.state-card {
+  padding: 40px;
+
+  text-align: center;
+
+  background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+
+  font-size: 14px;
+}
+
+.state-card.error {
+  color: #b91c1c;
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+
+/* =========================
+   Responsive
+   ========================= */
+
+@media (max-width: 1200px) {
+
+  .details-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .performance-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+
+@media (max-width: 768px) {
+
+  .vehicle-details-page {
+    padding: 16px;
+  }
+
+  .page-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .performance-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .vehicle-title h1 {
+    font-size: 22px;
+  }
+
+  .section {
+    padding: 16px;
+  }
+}
