@@ -13,13 +13,13 @@
 
   </div>
 
-  @if (loading) {
+  @if (loading()) {
 
     <div class="state-card">
       Loading vehicles...
     </div>
 
-  } @else if (error) {
+  } @else if (error()) {
 
     <div class="state-card error">
       Failed to load vehicles.
@@ -63,7 +63,7 @@
 
         <tbody>
 
-          @for (vehicle of vehicles; track vehicle.id) {
+          @for (vehicle of vehicles(); track vehicle.id) {
 
             <tr>
 
@@ -141,17 +141,16 @@
 
                 <div class="actions">
 
-                <button
+                  <button
                     class="action-button"
                     title="View vehicle"
                     (click)="viewVehicle(vehicle.id)">
                     View
                   </button>
-                  
+
                   <button
                     class="action-button"
                     title="Edit vehicle">
-
                     Edit
                   </button>
 
@@ -184,7 +183,7 @@
     <div class="table-footer">
 
       <span>
-        Showing {{ vehicles.length }} vehicle(s)
+        Showing {{ vehicles().length }} vehicle(s)
       </span>
 
     </div>

@@ -1,12 +1,14 @@
 import {
   Component,
   OnInit,
-  ChangeDetectorRef,
-  inject
+  inject,
+  signal
 } from '@angular/core';
+
+import { DecimalPipe } from '@angular/common';
+
 import { DashboardService } from '../../services/dashboard';
 import { FleetDashboard } from '../../models/fleet-dashboard.model';
-import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard-pages',
@@ -18,11 +20,11 @@ import { DecimalPipe } from '@angular/common';
 export class DashboardPages implements OnInit {
 
   private readonly dashboardService = inject(DashboardService);
-  private readonly cdr = inject(ChangeDetectorRef);
-  dashboard: FleetDashboard | null = null;
 
-  loading = true;
-  error = false;
+  dashboard = signal<FleetDashboard | null>(null);
+
+  loading = signal(true);
+  error = signal(false);
 
   ngOnInit(): void {
     this.loadDashboard();
@@ -30,31 +32,31 @@ export class DashboardPages implements OnInit {
 
   private loadDashboard(): void {
 
-    this.loading = true;
-    this.error = false;
+    console.log('Loading dashboard...');
 
- this.dashboardService.getDashboard().subscribe({
-  next: (response) => {
+    this.loading.set(true);
+    this.error.set(false);
 
-    console.log('Dashboard API response:', response);
+    this.dashboardService.getDashboard().subscribe({
 
-    this.dashboard = response;
-    this.loading = false;
+      next: (response) => {
 
-    this.cdr.detectChanges();
+        console.log('Dashboard API response:', response);
 
-  },
+        this.dashboard.set(response);
+        this.loading.set(false);
 
-  error: (error) => {
+      },
 
-    console.error('Dashboard API error:', error);
+      error: (error) => {
 
-    this.loading = false;
-    this.error = true;
+        console.error('Dashboard API error:', error);
 
-    this.cdr.detectChanges();
+        this.loading.set(false);
+        this.error.set(true);
 
-  }
-});
+      }
+
+    });
   }
 }

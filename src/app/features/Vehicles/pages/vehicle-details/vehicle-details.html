@@ -1,24 +1,24 @@
 <div class="vehicle-details-page">
 
-  @if (loading) {
+  @if (loading()) {
 
     <div class="state-card">
       Loading vehicle...
     </div>
 
-  } @else if (error) {
+  } @else if (error()) {
 
     <div class="state-card error">
-      Failed to load vehicle.
+      Failed to load vehicle details.
     </div>
 
-  } @else if (vehicle) {
+  } @else if (vehicle(); as data) {
 
     <!-- Header -->
 
     <div class="page-header">
 
-      <div>
+      <div class="header-left">
 
         <button
           class="back-button"
@@ -27,36 +27,33 @@
           ← Back to Vehicles
         </button>
 
-        <div class="vehicle-title">
+        <div class="vehicle-header">
 
           <div class="vehicle-icon">
             🚗
           </div>
 
           <div>
-
             <h1>
-              {{ vehicle.make }} {{ vehicle.model }}
+              {{ data.make }} {{ data.model }}
             </h1>
 
             <p>
-              {{ vehicle.registrationNumber }}
+              {{ data.registrationNumber }}
             </p>
-
           </div>
 
         </div>
 
       </div>
 
-
       <span
         class="status"
-        [class.available]="vehicle.status === 0"
-        [class.assigned]="vehicle.status === 1"
-        [class.maintenance]="vehicle.status === 2">
+        [class.available]="data.status === 0"
+        [class.assigned]="data.status === 1"
+        [class.maintenance]="data.status === 2">
 
-        {{ getStatusLabel(vehicle.status) }}
+        {{ getStatusLabel(data.status) }}
 
       </span>
 
@@ -65,26 +62,25 @@
 
     <!-- Vehicle Information -->
 
-    <section class="section">
+    <section class="details-section">
 
       <div class="section-header">
-
         <div>
           <h2>Vehicle Information</h2>
-          <p>Basic information about this vehicle</p>
+          <p>General information about this vehicle</p>
         </div>
-
       </div>
-
 
       <div class="details-grid">
 
         <div class="detail-card">
 
-          <span>Registration Number</span>
+          <span class="label">
+            Registration Number
+          </span>
 
           <strong>
-            {{ vehicle.registrationNumber }}
+            {{ data.registrationNumber }}
           </strong>
 
         </div>
@@ -92,10 +88,12 @@
 
         <div class="detail-card">
 
-          <span>VIN</span>
+          <span class="label">
+            VIN
+          </span>
 
           <strong>
-            {{ vehicle.vin }}
+            {{ data.vin }}
           </strong>
 
         </div>
@@ -103,10 +101,12 @@
 
         <div class="detail-card">
 
-          <span>Make</span>
+          <span class="label">
+            Make
+          </span>
 
           <strong>
-            {{ vehicle.make }}
+            {{ data.make }}
           </strong>
 
         </div>
@@ -114,10 +114,12 @@
 
         <div class="detail-card">
 
-          <span>Model</span>
+          <span class="label">
+            Model
+          </span>
 
           <strong>
-            {{ vehicle.model }}
+            {{ data.model }}
           </strong>
 
         </div>
@@ -125,10 +127,12 @@
 
         <div class="detail-card">
 
-          <span>Year</span>
+          <span class="label">
+            Year
+          </span>
 
           <strong>
-            {{ vehicle.year }}
+            {{ data.year }}
           </strong>
 
         </div>
@@ -136,10 +140,12 @@
 
         <div class="detail-card">
 
-          <span>Fuel Type</span>
+          <span class="label">
+            Fuel Type
+          </span>
 
           <strong>
-            {{ getFuelTypeLabel(vehicle.fuelType) }}
+            {{ getFuelTypeLabel(data.fuelType) }}
           </strong>
 
         </div>
@@ -147,10 +153,12 @@
 
         <div class="detail-card">
 
-          <span>Current Mileage</span>
+          <span class="label">
+            Current Mileage
+          </span>
 
           <strong>
-            {{ vehicle.mileage | number:'1.0-0' }} km
+            {{ data.mileage | number:'1.0-0' }} km
           </strong>
 
         </div>
@@ -158,10 +166,12 @@
 
         <div class="detail-card">
 
-          <span>Status</span>
+          <span class="label">
+            Status
+          </span>
 
           <strong>
-            {{ getStatusLabel(vehicle.status) }}
+            {{ getStatusLabel(data.status) }}
           </strong>
 
         </div>
@@ -173,195 +183,124 @@
 
     <!-- Performance -->
 
-    @if (performance) {
+    @if (performance(); as stats) {
 
-      <section class="section">
+      <section class="details-section">
 
         <div class="section-header">
-
           <div>
-
             <h2>Performance Overview</h2>
-
-            <p>
-              Operational and financial performance
-            </p>
-
+            <p>Fuel, maintenance and operational performance</p>
           </div>
-
         </div>
 
 
         <div class="performance-grid">
 
+          <div class="performance-card">
 
-          <div class="metric-card">
+            <span class="label">
+              Fuel Efficiency
+            </span>
 
-            <div class="metric-icon">
-              ⛽
-            </div>
+            <strong>
+              {{ stats.fuelEfficiency | number:'1.2-2' }}
+            </strong>
 
-            <div>
-
-              <span>
-                Fuel Efficiency
-              </span>
-
-              <strong>
-                {{ performance.fuelEfficiency | number:'1.2-2' }}
-                km/L
-              </strong>
-
-            </div>
+            <span class="description">
+              km per litre
+            </span>
 
           </div>
 
 
-          <div class="metric-card">
+          <div class="performance-card">
 
-            <div class="metric-icon">
-              💰
-            </div>
+            <span class="label">
+              Fuel Cost / 100 km
+            </span>
 
-            <div>
-
-              <span>
-                Fuel Cost / 100 km
-              </span>
-
-              <strong>
-                R{{ performance.fuelCostPer100Km | number:'1.2-2' }}
-              </strong>
-
-            </div>
+            <strong>
+              R {{ stats.fuelCostPer100Km | number:'1.2-2' }}
+            </strong>
 
           </div>
 
 
-          <div class="metric-card">
+          <div class="performance-card">
 
-            <div class="metric-icon">
-              ⛽
-            </div>
+            <span class="label">
+              Total Fuel Cost
+            </span>
 
-            <div>
-
-              <span>
-                Total Fuel Cost
-              </span>
-
-              <strong>
-                R{{ performance.totalFuelCost | number:'1.2-2' }}
-              </strong>
-
-            </div>
+            <strong>
+              R {{ stats.totalFuelCost | number:'1.2-2' }}
+            </strong>
 
           </div>
 
 
-          <div class="metric-card">
+          <div class="performance-card">
 
-            <div class="metric-icon">
-              🔧
-            </div>
+            <span class="label">
+              Maintenance Cost
+            </span>
 
-            <div>
-
-              <span>
-                Maintenance Cost
-              </span>
-
-              <strong>
-                R{{ performance.totalMaintenanceCost | number:'1.2-2' }}
-              </strong>
-
-            </div>
+            <strong>
+              R {{ stats.totalMaintenanceCost | number:'1.2-2' }}
+            </strong>
 
           </div>
 
 
-          <div class="metric-card">
+          <div class="performance-card">
 
-            <div class="metric-icon">
-              📊
-            </div>
+            <span class="label">
+              Operating Cost
+            </span>
 
-            <div>
-
-              <span>
-                Operating Cost
-              </span>
-
-              <strong>
-                R{{ performance.totalOperatingCost | number:'1.2-2' }}
-              </strong>
-
-            </div>
+            <strong>
+              R {{ stats.totalOperatingCost | number:'1.2-2' }}
+            </strong>
 
           </div>
 
 
-          <div class="metric-card">
+          <div class="performance-card">
 
-            <div class="metric-icon">
-              🛣️
-            </div>
+            <span class="label">
+              Total Trips
+            </span>
 
-            <div>
-
-              <span>
-                Total Trips
-              </span>
-
-              <strong>
-                {{ performance.totalTrips }}
-              </strong>
-
-            </div>
+            <strong>
+              {{ stats.totalTrips }}
+            </strong>
 
           </div>
 
 
-          <div class="metric-card">
+          <div class="performance-card">
 
-            <div class="metric-icon">
-              📍
-            </div>
+            <span class="label">
+              Distance Travelled
+            </span>
 
-            <div>
-
-              <span>
-                Distance Travelled
-              </span>
-
-              <strong>
-                {{ performance.totalDistanceTravelled | number:'1.0-0' }}
-                km
-              </strong>
-
-            </div>
+            <strong>
+              {{ stats.totalDistanceTravelled | number:'1.0-2' }} km
+            </strong>
 
           </div>
 
 
-          <div class="metric-card">
+          <div class="performance-card">
 
-            <div class="metric-icon">
-              🚗
-            </div>
+            <span class="label">
+              Current Mileage
+            </span>
 
-            <div>
-
-              <span>
-                Current Mileage
-              </span>
-
-              <strong>
-                {{ performance.currentMileage | number:'1.0-0' }}
-                km
-              </strong>
-
-            </div>
+            <strong>
+              {{ stats.currentMileage | number:'1.0-0' }} km
+            </strong>
 
           </div>
 

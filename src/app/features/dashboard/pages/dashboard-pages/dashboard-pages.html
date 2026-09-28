@@ -7,25 +7,25 @@
     </div>
   </div>
 
-  @if (loading) {
+  @if (loading()) {
 
     <div class="state-card">
       Loading dashboard...
     </div>
 
-  } @else if (error) {
+  } @else if (error()) {
 
     <div class="state-card error">
       Failed to load dashboard data.
     </div>
 
-  } @else if (dashboard) {
+  } @else if (dashboard(); as data) {
 
     <div class="stats-grid">
 
       <div class="stat-card">
         <span class="label">Total Vehicles</span>
-        <strong>{{ dashboard.totalVehicles }}</strong>
+        <strong>{{ data.totalVehicles }}</strong>
         <span class="description">
           Fleet vehicles
         </span>
@@ -33,7 +33,7 @@
 
       <div class="stat-card">
         <span class="label">Available Vehicles</span>
-        <strong>{{ dashboard.availableVehicles }}</strong>
+        <strong>{{ data.availableVehicles }}</strong>
         <span class="description">
           Ready for assignment
         </span>
@@ -41,7 +41,7 @@
 
       <div class="stat-card">
         <span class="label">Assigned Vehicles</span>
-        <strong>{{ dashboard.assignedVehicles }}</strong>
+        <strong>{{ data.assignedVehicles }}</strong>
         <span class="description">
           Currently assigned
         </span>
@@ -49,7 +49,7 @@
 
       <div class="stat-card">
         <span class="label">Vehicles in Maintenance</span>
-        <strong>{{ dashboard.vehiclesInMaintenance }}</strong>
+        <strong>{{ data.vehiclesInMaintenance }}</strong>
         <span class="description">
           Maintenance status
         </span>
@@ -57,7 +57,7 @@
 
       <div class="stat-card">
         <span class="label">Total Drivers</span>
-        <strong>{{ dashboard.totalDrivers }}</strong>
+        <strong>{{ data.totalDrivers }}</strong>
         <span class="description">
           Registered drivers
         </span>
@@ -65,7 +65,7 @@
 
       <div class="stat-card">
         <span class="label">Active Drivers</span>
-        <strong>{{ dashboard.activeDrivers }}</strong>
+        <strong>{{ data.activeDrivers }}</strong>
         <span class="description">
           Currently active
         </span>
@@ -82,21 +82,21 @@
       <div class="stat-card financial">
         <span class="label">Fuel Cost</span>
         <strong>
-          R {{ dashboard.totalFuelCost | number:'1.2-2' }}
+          R {{ data.totalFuelCost | number:'1.2-2' }}
         </strong>
       </div>
 
       <div class="stat-card financial">
         <span class="label">Maintenance Cost</span>
         <strong>
-          R {{ dashboard.totalMaintenanceCost | number:'1.2-2' }}
+          R {{ data.totalMaintenanceCost | number:'1.2-2' }}
         </strong>
       </div>
 
       <div class="stat-card financial">
         <span class="label">Total Operating Cost</span>
         <strong>
-          R {{ dashboard.totalOperatingCost | number:'1.2-2' }}
+          R {{ data.totalOperatingCost | number:'1.2-2' }}
         </strong>
       </div>
 
@@ -110,20 +110,20 @@
 
       <div class="stat-card">
         <span class="label">Total Trips</span>
-        <strong>{{ dashboard.totalTrips }}</strong>
+        <strong>{{ data.totalTrips }}</strong>
       </div>
 
       <div class="stat-card">
         <span class="label">Distance Travelled</span>
         <strong>
-          {{ dashboard.totalDistanceTravelled | number:'1.0-2' }} km
+          {{ data.totalDistanceTravelled | number:'1.0-2' }} km
         </strong>
       </div>
 
       <div class="stat-card">
         <span class="label">Average Distance / Trip</span>
         <strong>
-          {{ dashboard.averageDistancePerTrip | number:'1.0-2' }} km
+          {{ data.averageDistancePerTrip | number:'1.0-2' }} km
         </strong>
       </div>
 

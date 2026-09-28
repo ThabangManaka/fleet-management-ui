@@ -1,8 +1,8 @@
 import {
   Component,
   OnInit,
-  ChangeDetectorRef,
-  inject
+  inject,
+  signal
 } from '@angular/core';
 
 import { DecimalPipe } from '@angular/common';
@@ -24,13 +24,12 @@ export class VehicleDetails implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly vehicleService = inject(VehicleService);
-  private readonly cdr = inject(ChangeDetectorRef);
 
-  vehicle: Vehicle | null = null;
-  performance: VehiclePerformance | null = null;
+  vehicle = signal<Vehicle | null>(null);
+  performance = signal<VehiclePerformance | null>(null);
 
-  loading = false;
-  error = false;
+  loading = signal(false);
+  error = signal(false);
 
   ngOnInit(): void {
 
@@ -41,8 +40,7 @@ export class VehicleDetails implements OnInit {
     console.log('Vehicle ID from route:', id);
 
     if (!id) {
-      this.error = true;
-      this.cdr.detectChanges();
+      this.error.set(true);
       return;
     }
 
@@ -53,8 +51,8 @@ export class VehicleDetails implements OnInit {
 
     console.log('Loading vehicle:', id);
 
-    this.loading = true;
-    this.error = false;
+    this.loading.set(true);
+    this.error.set(false);
 
     this.vehicleService.getVehicle(id).subscribe({
 
@@ -62,11 +60,7 @@ export class VehicleDetails implements OnInit {
 
         console.log('Vehicle API response:', vehicle);
 
-        this.vehicle = vehicle;
-
-        console.log('Vehicle loaded successfully');
-
-        this.cdr.detectChanges();
+        this.vehicle.set(vehicle);
 
         this.loadPerformance(id);
       },
@@ -75,11 +69,10 @@ export class VehicleDetails implements OnInit {
 
         console.error('Vehicle API error:', error);
 
-        this.loading = false;
-        this.error = true;
-
-        this.cdr.detectChanges();
+        this.loading.set(false);
+        this.error.set(true);
       }
+
     });
   }
 
@@ -93,23 +86,18 @@ export class VehicleDetails implements OnInit {
 
         console.log('Performance API response:', performance);
 
-        this.performance = performance;
-        this.loading = false;
+        this.performance.set(performance);
+        this.loading.set(false);
 
-        console.log('Performance loaded');
-        console.log('Loading:', this.loading);
-
-        this.cdr.detectChanges();
       },
 
       error: (error) => {
 
         console.error('Performance API error:', error);
 
-        this.loading = false;
-
-        this.cdr.detectChanges();
+        this.loading.set(false);
       }
+
     });
   }
 
@@ -120,37 +108,23 @@ export class VehicleDetails implements OnInit {
   getFuelTypeLabel(fuelType: number): string {
 
     switch (fuelType) {
-      case 0:
-        return 'Petrol';
-
-      case 1:
-        return 'Diesel';
-
-      case 2:
-        return 'Electric';
-
-      case 3:
-        return 'Hybrid';
-
-      default:
-        return 'Unknown';
+      case 0: return 'Petrol';
+      case 1: return 'Diesel';
+      case 2: return 'Electric';
+      case 3: return 'Hybrid';
+      default: return 'Unknown';
     }
+
   }
 
   getStatusLabel(status: number): string {
 
     switch (status) {
-      case 0:
-        return 'Available';
-
-      case 1:
-        return 'Assigned';
-
-      case 2:
-        return 'Maintenance';
-
-      default:
-        return 'Unknown';
+      case 0: return 'Available';
+      case 1: return 'Assigned';
+      case 2: return 'Maintenance';
+      default: return 'Unknown';
     }
+
   }
 }
