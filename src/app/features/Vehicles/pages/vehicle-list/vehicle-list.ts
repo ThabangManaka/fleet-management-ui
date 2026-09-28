@@ -68,4 +68,8 @@ export class VehicleList implements OnInit {
   viewVehicle(id: string): void {
     this.router.navigate(['/vehicles', id]);
   }
+
+  addVehicle(): void {
+  this.router.navigate(['/vehicles/new']);
+  }
 }

@@ -26,6 +26,12 @@ export const routes: Routes = [
             .then(m => m.VehicleList)
       },
       {
+        path: 'vehicles/new',
+        loadComponent: () =>
+          import('./features/Vehicles/pages/vehicle-form/vehicle-form')
+            .then(m => m.VehicleForm)
+      },
+      {
         path: 'vehicles/:id',
         loadComponent: () =>
           import('./features/Vehicles/pages/vehicle-details/vehicle-details')
