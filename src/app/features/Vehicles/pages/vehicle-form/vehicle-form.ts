@@ -129,8 +129,10 @@ export class VehicleForm {
 
       error: (error) => {
 
-        console.error('Create vehicle error:', error);
-
+      console.error('Create vehicle error:', error);
+      console.error('Status:', error.status);
+      console.error('Error body:', error.error);
+      console.error('Validation errors:', error.error?.errors);
         this.saving.set(false);
         this.error.set(true);
       }

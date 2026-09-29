@@ -29,7 +29,10 @@ export class VehicleService {
     );
   }
 
-  createVehicle(request: CreateVehicleRequest): Observable<Vehicle> {
-    return this.http.post<Vehicle>(this.apiUrl, request);
-  }
+ createVehicle(request: CreateVehicleRequest): Observable<Vehicle> {
+  return this.http.post<Vehicle>(
+    this.apiUrl,
+    { request }
+  );
+}
 }
