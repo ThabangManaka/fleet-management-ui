@@ -1,4 +1,5 @@
-export interface CreateVehicleRequest {
+export interface UpdateVehicleRequest {
+  id: string;
   registrationNumber: string;
   vin: string;
   make: string;
