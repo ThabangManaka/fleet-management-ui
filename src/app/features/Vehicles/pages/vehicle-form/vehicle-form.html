@@ -49,56 +49,82 @@
 
         <!-- Registration -->
 
-        <div class="form-group">
+    <div class="form-group">
 
-          <label for="registrationNumber">
+        <label for="registrationNumber">
             Registration Number
-          </label>
+        </label>
 
-          <input
+        <input
             id="registrationNumber"
             type="text"
             formControlName="registrationNumber"
-            placeholder="e.g. ABC123GP" />
+            placeholder="e.g. ABC123GP"
+            [class.invalid]="
+            vehicleForm.controls.registrationNumber.touched &&
+            vehicleForm.controls.registrationNumber.invalid ||
+            hasValidationError('RegistrationNumber')
+            "
+        />
 
-          @if (
+        @if (
             vehicleForm.controls.registrationNumber.touched &&
             vehicleForm.controls.registrationNumber.invalid
-          ) {
+        ) {
 
             <span class="validation-message">
-              Registration number is required.
+            Registration number is required.
             </span>
 
-          }
+        }
+
+        @if (hasValidationError('RegistrationNumber')) {
+
+            <span class="validation-message">
+            {{ getValidationError('RegistrationNumber') }}
+            </span>
+
+        }
 
         </div>
 
 
         <!-- VIN -->
 
-        <div class="form-group">
+      <div class="form-group">
 
-          <label for="vin">
-            VIN
-          </label>
+        <label for="vin">VIN</label>
 
-          <input
+        <input
             id="vin"
             type="text"
             formControlName="vin"
-            placeholder="Enter vehicle VIN" />
+            placeholder="Enter vehicle VIN"
+            [class.invalid]="
+            vehicleForm.controls.vin.touched &&
+            vehicleForm.controls.vin.invalid ||
+            hasValidationError('Vin')
+            "
+        />
 
-          @if (
+        @if (
             vehicleForm.controls.vin.touched &&
             vehicleForm.controls.vin.invalid
-          ) {
+        ) {
 
             <span class="validation-message">
-              VIN is required.
+            VIN is required.
             </span>
 
-          }
+        }
+
+        @if (hasValidationError('Vin')) {
+
+            <span class="validation-message">
+            {{ getValidationError('Vin') }}
+            </span>
+
+        }
 
         </div>
 

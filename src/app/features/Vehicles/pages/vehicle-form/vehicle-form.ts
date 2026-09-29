@@ -32,6 +32,7 @@ export class VehicleForm {
   saving = signal(false);
   error = signal(false);
   errorMessage = signal('');
+  validationErrors = signal<Record<string, string[]>>({});
 
   vehicleForm = this.fb.nonNullable.group({
 
@@ -83,6 +84,27 @@ export class VehicleForm {
 
   });
 
+  hasValidationError(field: string): boolean {
+  return !!this.validationErrors()[field]?.length;
+  }
+
+  getValidationError(field: string): string {
+    return this.validationErrors()[field]?.[0] ?? '';
+  }
+  clearFieldError(field: string): void {
+
+    const errors = { ...this.validationErrors() };
+
+    delete errors[field];
+
+    this.validationErrors.set(errors);
+
+    if (Object.keys(errors).length === 0) {
+      this.error.set(false);
+      this.errorMessage.set('');
+    }
+  }
+
 saveVehicle(): void {
 
   if (this.vehicleForm.invalid) {
@@ -116,41 +138,46 @@ saveVehicle(): void {
 
   console.log('Creating vehicle:', request);
 
-  this.vehicleService.createVehicle(request).subscribe({
+    this.vehicleService.createVehicle(request).subscribe({
 
     next: (response) => {
 
-      console.log('Vehicle created:', response);
+    console.log('Vehicle created:', response);
 
-      this.saving.set(false);
+    this.saving.set(false);
 
-      this.router.navigate(['/vehicles']);
+    this.router.navigate(['/vehicles'], {
+      state: {
+        successMessage: `Vehicle ${response.make} ${response.model} (${response.registrationNumber}) created successfully.`
+        }
+      });
     },
 
-    error: (error) => {
+  error: (error) => {
 
-      console.error('Create vehicle error:', error);
+  console.error('Create vehicle error:', error);
 
-      this.saving.set(false);
-      this.error.set(true);
+  this.saving.set(false);
+  this.error.set(true);
 
-      const validationErrors = error.error?.errors;
+  const errors = error.error?.errors;
 
-      if (validationErrors) {
+  if (errors) {
+    this.validationErrors.set(errors);
 
-        const messages = Object.values(validationErrors)
-          .flat()
-          .join(' ');
+    const messages = Object.values(errors)
+      .flat()
+      .join(' ');
 
-        this.errorMessage.set(messages);
+    this.errorMessage.set(messages);
+  } else {
+    this.validationErrors.set({});
 
-      } else {
-
-        this.errorMessage.set(
-          'Failed to create vehicle. Please try again.'
-        );
-      }
-    }
+    this.errorMessage.set(
+      'Failed to create vehicle. Please try again.'
+    );
+  }
+}
 
   });
 }
