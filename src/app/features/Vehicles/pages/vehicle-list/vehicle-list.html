@@ -140,9 +140,18 @@
 
                   <button
                     class="action-button"
-                    title="Edit vehicle">
+                    title="Edit vehicle"
+                    (click)="editVehicle(vehicle.id)">
                     Edit
                   </button>
+
+                 <button
+                  type="button"
+                  class="action-button delete"
+                  title="Delete vehicle"
+                  (click)="deleteVehicle(vehicle.id)">
+                  Delete
+                </button>
 
                 </div>
 

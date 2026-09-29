@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Vehicle } from '../models/vehicle.model';
 import { VehiclePerformance } from '../models/vehicle-performance.model';
 import { CreateVehicleRequest } from '../models/CreateVehicleRequest .model';
+import { UpdateVehicleRequest } from '../models/update-vehicle-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,25 @@ export class VehicleService {
   return this.http.post<Vehicle>(
     this.apiUrl,
     { request }
+  );
+}
+
+updateVehicle(
+  id: string,
+  request: UpdateVehicleRequest
+): Observable<Vehicle> {
+  return this.http.put<Vehicle>(
+    `${this.apiUrl}/${id}`,
+    {
+      id,
+      request
+    }
+  );
+}
+
+deleteVehicle(id: string): Observable<void> {
+  return this.http.delete<void>(
+    `${this.apiUrl}/${id}`
   );
 }
 }

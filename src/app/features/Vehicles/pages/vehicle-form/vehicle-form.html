@@ -10,277 +10,292 @@
         ← Back to Vehicles
       </button>
 
-      <h1>Add Vehicle</h1>
+      <h1>
+        {{ isEditMode() ? 'Edit Vehicle' : 'Add Vehicle' }}
+      </h1>
 
       <p>
-        Add a new vehicle to your fleet
+        {{ isEditMode()
+          ? 'Update the vehicle information below.'
+          : 'Add a new vehicle to your fleet.' }}
       </p>
     </div>
 
   </div>
 
+  @if (loading()) {
 
-@if (error()) {
-  <div class="state-card error">
-    {{ errorMessage() }}
-  </div>
-}
+    <div class="state-card">
+      Loading vehicle...
+    </div>
 
+  } @else {
 
-  <form
-    class="vehicle-form"
-    [formGroup]="vehicleForm"
-    (ngSubmit)="saveVehicle()">
-
-    <section class="form-section">
-
-      <div class="section-header">
-
-        <h2>Vehicle Information</h2>
-
-        <p>
-          Enter the basic details of the vehicle.
-        </p>
-
+    @if (error()) {
+      <div class="state-card error">
+        {{ errorMessage() }}
       </div>
+    }
+
+    <form
+      class="vehicle-form"
+      [formGroup]="vehicleForm"
+      (ngSubmit)="saveVehicle()">
+
+      <section class="form-section">
+
+        <div class="section-header">
+          <h2>Vehicle Information</h2>
+
+          <p>
+            Enter the basic details of the vehicle.
+          </p>
+        </div>
+
+        <div class="form-grid">
+
+          <!-- Registration Number -->
+          <div class="form-group">
+
+            <label for="registrationNumber">
+              Registration Number
+            </label>
+
+            <input
+              id="registrationNumber"
+              type="text"
+              formControlName="registrationNumber"
+              placeholder="e.g. ABC123GP"
+              (input)="clearFieldError('RegistrationNumber')"
+              [class.invalid]="
+                (vehicleForm.controls.registrationNumber.touched &&
+                 vehicleForm.controls.registrationNumber.invalid) ||
+                hasValidationError('RegistrationNumber')
+              "
+            />
+
+            @if (
+              vehicleForm.controls.registrationNumber.touched &&
+              vehicleForm.controls.registrationNumber.invalid
+            ) {
+              <span class="validation-message">
+                Registration number is required.
+              </span>
+            }
+
+            @if (hasValidationError('RegistrationNumber')) {
+              <span class="validation-message">
+                {{ getValidationError('RegistrationNumber') }}
+              </span>
+            }
+
+          </div>
 
 
-      <div class="form-grid">
+          <!-- VIN -->
+          <div class="form-group">
 
-        <!-- Registration -->
+            <label for="vin">
+              VIN
+            </label>
 
-    <div class="form-group">
+            <input
+              id="vin"
+              type="text"
+              formControlName="vin"
+              placeholder="Enter vehicle VIN"
+              (input)="clearFieldError('Vin')"
+              [class.invalid]="
+                (vehicleForm.controls.vin.touched &&
+                 vehicleForm.controls.vin.invalid) ||
+                hasValidationError('Vin')
+              "
+            />
 
-        <label for="registrationNumber">
-            Registration Number
-        </label>
+            @if (
+              vehicleForm.controls.vin.touched &&
+              vehicleForm.controls.vin.invalid
+            ) {
+              <span class="validation-message">
+                VIN is required.
+              </span>
+            }
 
-        <input
-            id="registrationNumber"
-            type="text"
-            formControlName="registrationNumber"
-            placeholder="e.g. ABC123GP"
-            [class.invalid]="
-            vehicleForm.controls.registrationNumber.touched &&
-            vehicleForm.controls.registrationNumber.invalid ||
-            hasValidationError('RegistrationNumber')
-            "
-        />
+            @if (hasValidationError('Vin')) {
+              <span class="validation-message">
+                {{ getValidationError('Vin') }}
+              </span>
+            }
 
-        @if (
-            vehicleForm.controls.registrationNumber.touched &&
-            vehicleForm.controls.registrationNumber.invalid
-        ) {
+          </div>
 
-            <span class="validation-message">
-            Registration number is required.
-            </span>
 
-        }
+          <!-- Make -->
+          <div class="form-group">
 
-        @if (hasValidationError('RegistrationNumber')) {
+            <label for="make">
+              Make
+            </label>
 
-            <span class="validation-message">
-            {{ getValidationError('RegistrationNumber') }}
-            </span>
+            <input
+              id="make"
+              type="text"
+              formControlName="make"
+              placeholder="e.g. Toyota"
+              [class.invalid]="
+                vehicleForm.controls.make.touched &&
+                vehicleForm.controls.make.invalid
+              "
+            />
 
-        }
+            @if (
+              vehicleForm.controls.make.touched &&
+              vehicleForm.controls.make.invalid
+            ) {
+              <span class="validation-message">
+                Make is required.
+              </span>
+            }
+
+          </div>
+
+
+          <!-- Model -->
+          <div class="form-group">
+
+            <label for="model">
+              Model
+            </label>
+
+            <input
+              id="model"
+              type="text"
+              formControlName="model"
+              placeholder="e.g. Hilux"
+              [class.invalid]="
+                vehicleForm.controls.model.touched &&
+                vehicleForm.controls.model.invalid
+              "
+            />
+
+            @if (
+              vehicleForm.controls.model.touched &&
+              vehicleForm.controls.model.invalid
+            ) {
+              <span class="validation-message">
+                Model is required.
+              </span>
+            }
+
+          </div>
+
+
+          <!-- Year -->
+          <div class="form-group">
+
+            <label for="year">
+              Year
+            </label>
+
+            <input
+              id="year"
+              type="number"
+              formControlName="year"
+              min="1900"
+              [max]="currentYear + 1"
+              [class.invalid]="
+                vehicleForm.controls.year.touched &&
+                vehicleForm.controls.year.invalid
+              "
+            />
+
+            @if (
+              vehicleForm.controls.year.touched &&
+              vehicleForm.controls.year.invalid
+            ) {
+              <span class="validation-message">
+                Please enter a valid vehicle year.
+              </span>
+            }
+
+          </div>
+
+
+          <!-- Fuel Type -->
+          <div class="form-group">
+
+            <label for="fuelType">
+              Fuel Type
+            </label>
+
+            <select
+              id="fuelType"
+              formControlName="fuelType">
+
+              <option [ngValue]="0">
+                Petrol
+              </option>
+
+              <option [ngValue]="1">
+                Diesel
+              </option>
+
+              <option [ngValue]="2">
+                Electric
+              </option>
+
+              <option [ngValue]="3">
+                Hybrid
+              </option>
+
+            </select>
+
+          </div>
 
         </div>
 
-
-        <!-- VIN -->
-
-      <div class="form-group">
-
-        <label for="vin">VIN</label>
-
-        <input
-            id="vin"
-            type="text"
-            formControlName="vin"
-            placeholder="Enter vehicle VIN"
-            [class.invalid]="
-            vehicleForm.controls.vin.touched &&
-            vehicleForm.controls.vin.invalid ||
-            hasValidationError('Vin')
-            "
-        />
-
-        @if (
-            vehicleForm.controls.vin.touched &&
-            vehicleForm.controls.vin.invalid
-        ) {
-
-            <span class="validation-message">
-            VIN is required.
-            </span>
-
-        }
-
-        @if (hasValidationError('Vin')) {
-
-            <span class="validation-message">
-            {{ getValidationError('Vin') }}
-            </span>
-
-        }
-
-        </div>
+      </section>
 
 
-        <!-- Make -->
+      <!-- Actions -->
+      <div class="form-actions">
 
-        <div class="form-group">
+        <button
+          type="button"
+          class="secondary-button"
+          (click)="cancel()"
+          [disabled]="saving()">
 
-          <label for="make">
-            Make
-          </label>
-
-          <input
-            id="make"
-            type="text"
-            formControlName="make"
-            placeholder="e.g. Toyota" />
-
-          @if (
-            vehicleForm.controls.make.touched &&
-            vehicleForm.controls.make.invalid
-          ) {
-
-            <span class="validation-message">
-              Make is required.
-            </span>
-
-          }
-
-        </div>
-
-
-        <!-- Model -->
-
-        <div class="form-group">
-
-          <label for="model">
-            Model
-          </label>
-
-          <input
-            id="model"
-            type="text"
-            formControlName="model"
-            placeholder="e.g. Hilux" />
-
-          @if (
-            vehicleForm.controls.model.touched &&
-            vehicleForm.controls.model.invalid
-          ) {
-
-            <span class="validation-message">
-              Model is required.
-            </span>
-
-          }
-
-        </div>
-
-
-        <!-- Year -->
-
-        <div class="form-group">
-
-          <label for="year">
-            Year
-          </label>
-
-          <input
-            id="year"
-            type="number"
-            formControlName="year"
-            min="1900"
-            [max]="2027" />
-
-          @if (
-            vehicleForm.controls.year.touched &&
-            vehicleForm.controls.year.invalid
-          ) {
-
-            <span class="validation-message">
-              Please enter a valid vehicle year.
-            </span>
-
-          }
-
-        </div>
-
-
-        <!-- Fuel Type -->
-
-        <div class="form-group">
-
-          <label for="fuelType">
-            Fuel Type
-          </label>
-
-          <select
-            id="fuelType"
-            formControlName="fuelType">
-
-            <option [value]="0">
-              Petrol
-            </option>
-
-            <option [value]="1">
-              Diesel
-            </option>
-
-            <option [value]="2">
-              Electric
-            </option>
-
-            <option [value]="3">
-              Hybrid
-            </option>
-
-          </select>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- Form Actions -->
-
-    <div class="form-actions">
-
-      <button
-        type="button"
-        class="secondary-button"
-        (click)="cancel()"
-        [disabled]="saving()">
-
-        Cancel
-
-      </button>
-
-
-     <button
-        type="submit"
-        class="primary-button"
-        [disabled]="saving() || vehicleForm.invalid">
-
-        @if (saving()) {
-            Saving vehicle...
-        } @else {
-            Save Vehicle
-        }
+          Cancel
 
         </button>
 
-    </div>
 
-  </form>
+        <button
+          type="submit"
+          class="primary-button"
+          [disabled]="saving() || vehicleForm.invalid">
+
+          @if (saving()) {
+
+            {{ isEditMode()
+              ? 'Updating vehicle...'
+              : 'Saving vehicle...' }}
+
+          } @else {
+
+            {{ isEditMode()
+              ? 'Update Vehicle'
+              : 'Save Vehicle' }}
+
+          }
+
+        </button>
+
+      </div>
+
+    </form>
+
+  }
 
 </div>

@@ -78,8 +78,34 @@ ngOnInit(): void {
   viewVehicle(id: string): void {
     this.router.navigate(['/vehicles', id]);
   }
+  editVehicle(id: string): void {
+  this.router.navigate(['/vehicles', id, 'edit']);
+  }
 
   addVehicle(): void {
   this.router.navigate(['/vehicles/new']);
   }
+
+  deleteVehicle(id: string): void {
+  const confirmed = confirm(
+    'Are you sure you want to delete this vehicle?'
+  );
+
+  if (!confirmed) {
+    return;
+  }
+
+  this.vehicleService.deleteVehicle(id).subscribe({
+    next: () => {
+      this.loadVehicles();
+    },
+
+    error: (error) => {
+      console.error(
+        'Failed to delete vehicle:',
+        error
+      );
+    }
+  });
+}
 }
