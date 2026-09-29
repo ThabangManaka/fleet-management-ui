@@ -5,9 +5,9 @@ export interface Vehicle {
   make: string;
   model: string;
   year: number;
-  fuelType: number;
+  fuelType: string;
   mileage: number;
-  status: number;
+  status: string;
   createdAt: string;
   updatedAt?: string | null;
 }

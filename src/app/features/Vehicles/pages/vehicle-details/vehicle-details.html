@@ -49,11 +49,11 @@
 
       <span
         class="status"
-        [class.available]="data.status === 0"
-        [class.assigned]="data.status === 1"
-        [class.maintenance]="data.status === 2">
+          [class.available]="data.status === 'Available'"
+          [class.assigned]="data.status === 'Assigned'"
+          [class.maintenance]="data.status === 'Maintenance'">
 
-        {{ getStatusLabel(data.status) }}
+          {{ data.status }}
 
       </span>
 
@@ -145,7 +145,7 @@
           </span>
 
           <strong>
-            {{ getFuelTypeLabel(data.fuelType) }}
+           {{ data.fuelType }}
           </strong>
 
         </div>
@@ -171,7 +171,7 @@
           </span>
 
           <strong>
-            {{ getStatusLabel(data.status) }}
+            {{ data.status }}
           </strong>
 
         </div>

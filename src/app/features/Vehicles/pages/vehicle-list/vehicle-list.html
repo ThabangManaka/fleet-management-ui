@@ -119,30 +119,10 @@
 
                 <span
                   class="status"
-                  [class.available]="vehicle.status === 0"
-                  [class.assigned]="vehicle.status === 1"
-                  [class.maintenance]="vehicle.status === 2">
-
-                  @switch (vehicle.status) {
-
-                    @case (0) {
-                      Available
-                    }
-
-                    @case (1) {
-                      Assigned
-                    }
-
-                    @case (2) {
-                      Maintenance
-                    }
-
-                    @default {
-                      Unknown
-                    }
-
-                  }
-
+                  [class.available]="vehicle.status === 'Available'"
+                  [class.assigned]="vehicle.status === 'Assigned'"
+                  [class.maintenance]="vehicle.status === 'Maintenance'">
+                  {{ vehicle.status }}
                 </span>
 
               </td>
