@@ -31,6 +31,7 @@ export class VehicleForm {
 
   saving = signal(false);
   error = signal(false);
+  errorMessage = signal('');
 
   vehicleForm = this.fb.nonNullable.group({
 
@@ -82,63 +83,77 @@ export class VehicleForm {
 
   });
 
-  saveVehicle(): void {
+saveVehicle(): void {
 
-    if (this.vehicleForm.invalid) {
+  if (this.vehicleForm.invalid) {
+    this.vehicleForm.markAllAsTouched();
+    return;
+  }
 
-      this.vehicleForm.markAllAsTouched();
+  this.saving.set(true);
+  this.error.set(false);
+  this.errorMessage.set('');
 
-      return;
-    }
+  const request: CreateVehicleRequest = {
+    registrationNumber:
+      this.vehicleForm.controls.registrationNumber.value.trim(),
 
-    this.saving.set(true);
-    this.error.set(false);
+    vin:
+      this.vehicleForm.controls.vin.value.trim(),
 
-    const request: CreateVehicleRequest = {
-      registrationNumber:
-        this.vehicleForm.controls.registrationNumber.value.trim(),
+    make:
+      this.vehicleForm.controls.make.value.trim(),
 
-      vin:
-        this.vehicleForm.controls.vin.value.trim(),
+    model:
+      this.vehicleForm.controls.model.value.trim(),
 
-      make:
-        this.vehicleForm.controls.make.value.trim(),
+    year:
+      this.vehicleForm.controls.year.value,
 
-      model:
-        this.vehicleForm.controls.model.value.trim(),
+    fuelType:
+      this.vehicleForm.controls.fuelType.value
+  };
 
-      year:
-        this.vehicleForm.controls.year.value,
+  console.log('Creating vehicle:', request);
 
-      fuelType:
-        this.vehicleForm.controls.fuelType.value
-    };
+  this.vehicleService.createVehicle(request).subscribe({
 
-    console.log('Creating vehicle:', request);
+    next: (response) => {
 
-    this.vehicleService.createVehicle(request).subscribe({
+      console.log('Vehicle created:', response);
 
-      next: (response) => {
+      this.saving.set(false);
 
-        console.log('Vehicle created:', response);
+      this.router.navigate(['/vehicles']);
+    },
 
-        this.saving.set(false);
-
-        this.router.navigate(['/vehicles']);
-      },
-
-      error: (error) => {
+    error: (error) => {
 
       console.error('Create vehicle error:', error);
-      console.error('Status:', error.status);
-      console.error('Error body:', error.error);
-      console.error('Validation errors:', error.error?.errors);
-        this.saving.set(false);
-        this.error.set(true);
-      }
 
-    });
-  }
+      this.saving.set(false);
+      this.error.set(true);
+
+      const validationErrors = error.error?.errors;
+
+      if (validationErrors) {
+
+        const messages = Object.values(validationErrors)
+          .flat()
+          .join(' ');
+
+        this.errorMessage.set(messages);
+
+      } else {
+
+        this.errorMessage.set(
+          'Failed to create vehicle. Please try again.'
+        );
+      }
+    }
+
+  });
+}
 
   cancel(): void {
     this.router.navigate(['/vehicles']);

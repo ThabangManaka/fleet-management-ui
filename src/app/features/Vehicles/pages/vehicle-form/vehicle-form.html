@@ -20,13 +20,11 @@
   </div>
 
 
-  @if (error()) {
-
-    <div class="state-card error">
-      Failed to create vehicle. Please check your information and try again.
-    </div>
-
-  }
+@if (error()) {
+  <div class="state-card error">
+    {{ errorMessage() }}
+  </div>
+}
 
 
   <form
