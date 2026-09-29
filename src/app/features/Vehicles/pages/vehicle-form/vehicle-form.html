@@ -266,18 +266,18 @@
       </button>
 
 
-      <button
+     <button
         type="submit"
         class="primary-button"
-        [disabled]="saving()">
+        [disabled]="saving() || vehicleForm.invalid">
 
         @if (saving()) {
-          Saving...
+            Saving vehicle...
         } @else {
-          Save Vehicle
+            Save Vehicle
         }
 
-      </button>
+        </button>
 
     </div>
 

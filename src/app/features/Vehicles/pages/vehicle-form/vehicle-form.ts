@@ -107,6 +107,10 @@ export class VehicleForm {
 
 saveVehicle(): void {
 
+   if (this.saving()) {
+    return;
+  }
+
   if (this.vehicleForm.invalid) {
     this.vehicleForm.markAllAsTouched();
     return;
