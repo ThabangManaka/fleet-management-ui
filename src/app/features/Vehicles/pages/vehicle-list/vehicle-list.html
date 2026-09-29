@@ -16,6 +16,13 @@
 
   </div>
 
+    @if (successMessage()) {
+    <div class="success-message">
+      <span>✓</span>
+      <span>{{ successMessage() }}</span>
+    </div>
+  }
+
   @if (loading()) {
 
     <div class="state-card">

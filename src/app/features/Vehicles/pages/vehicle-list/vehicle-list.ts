@@ -22,14 +22,24 @@ export class VehicleList implements OnInit {
 
   private readonly vehicleService = inject(VehicleService);
   private readonly router = inject(Router);
-
+ 
+  successMessage = signal('');
   vehicles = signal<Vehicle[]>([]);
   loading = signal(false);
   error = signal(false);
 
-  ngOnInit(): void {
-    this.loadVehicles();
+ngOnInit(): void {
+
+  const navigation = this.router.getCurrentNavigation();
+
+  const message = navigation?.extras.state?.['successMessage'];
+
+  if (message) {
+    this.successMessage.set(message);
   }
+
+  this.loadVehicles();
+}
 
   private loadVehicles(): void {
 
