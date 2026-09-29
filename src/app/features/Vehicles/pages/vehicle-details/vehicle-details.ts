@@ -105,26 +105,22 @@ export class VehicleDetails implements OnInit {
     this.router.navigate(['/vehicles']);
   }
 
-  getFuelTypeLabel(fuelType: number): string {
-
-    switch (fuelType) {
-      case 0: return 'Petrol';
-      case 1: return 'Diesel';
-      case 2: return 'Electric';
-      case 3: return 'Hybrid';
-      default: return 'Unknown';
-    }
-
+ getFuelTypeLabel(fuelType: number): string {
+  switch (fuelType) {
+    case 0: return 'Petrol';
+    case 1: return 'Diesel';
+    case 2: return 'Electric';
+    case 3: return 'Hybrid';
+    default: return 'Unknown';
   }
+}
 
-  getStatusLabel(status: number): string {
-
-    switch (status) {
-      case 0: return 'Available';
-      case 1: return 'Assigned';
-      case 2: return 'Maintenance';
-      default: return 'Unknown';
-    }
-
+getStatusLabel(status: number): string {
+  switch (status) {
+    case 0: return 'Available';
+    case 1: return 'Assigned';
+    case 2: return 'Maintenance';
+    default: return 'Unknown';
   }
+}
 }
