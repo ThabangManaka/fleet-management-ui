@@ -19,7 +19,7 @@ import {
 import { VehicleService } from '../../services/vehicle.service';
 
 import { UpdateVehicleRequest } from '../../models/update-vehicle-request.model';
-import { CreateVehicleRequest } from '../../models/CreateVehicleRequest .model';
+import { CreateVehicleRequest } from '../../models/CreateVehicleRequest.model';
 
 @Component({
   selector: 'app-vehicle-form',

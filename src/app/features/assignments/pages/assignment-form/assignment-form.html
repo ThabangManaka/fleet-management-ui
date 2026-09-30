@@ -1,0 +1,143 @@
+<div class="page-container">
+
+  <div class="page-header">
+    <div>
+      <h1>Assign Vehicle</h1>
+      <p>Assign a vehicle to a driver.</p>
+    </div>
+
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="cancel()">
+      Back
+    </button>
+  </div>
+
+  @if (error()) {
+    <div class="error-message">
+      {{ errorMessage() }}
+    </div>
+  }
+
+  @if (loading()) {
+
+    <div class="loading">
+      Loading vehicles and drivers...
+    </div>
+
+  } @else {
+
+    <div class="form-card">
+
+      <form
+        [formGroup]="assignmentForm"
+        (ngSubmit)="saveAssignment()">
+
+        <!-- Vehicle -->
+        <div class="form-group">
+
+          <label for="vehicleId">
+            Vehicle
+          </label>
+
+          <select
+            id="vehicleId"
+            formControlName="vehicleId">
+
+            <option value="">
+              Select a vehicle
+            </option>
+
+            @for (vehicle of vehicles(); track vehicle.id) {
+
+              <option [value]="vehicle.id">
+                {{ vehicle.registrationNumber }}
+                — {{ vehicle.make }} {{ vehicle.model }}
+              </option>
+
+            }
+
+          </select>
+
+          @if (
+            assignmentForm.controls.vehicleId.touched &&
+            assignmentForm.controls.vehicleId.invalid
+          ) {
+            <div class="field-error">
+              Please select a vehicle.
+            </div>
+          }
+
+        </div>
+
+        <!-- Driver -->
+        <div class="form-group">
+
+          <label for="driverId">
+            Driver
+          </label>
+
+          <select
+            id="driverId"
+            formControlName="driverId">
+
+            <option value="">
+              Select a driver
+            </option>
+
+            @for (driver of drivers(); track driver.id) {
+
+              <option [value]="driver.id">
+                {{ driver.firstName }} {{ driver.lastName }}
+                — {{ driver.employeeNumber }}
+              </option>
+
+            }
+
+          </select>
+
+          @if (
+            assignmentForm.controls.driverId.touched &&
+            assignmentForm.controls.driverId.invalid
+          ) {
+            <div class="field-error">
+              Please select a driver.
+            </div>
+          }
+
+        </div>
+
+        <!-- Buttons -->
+        <div class="form-actions">
+
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="cancel()"
+            [disabled]="saving()">
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="saving()">
+
+            @if (saving()) {
+              Assigning...
+            } @else {
+              Assign Vehicle
+            }
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  }
+
+</div>

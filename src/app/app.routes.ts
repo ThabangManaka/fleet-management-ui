@@ -68,6 +68,12 @@ export const routes: Routes = [
             .then(m => m.DriverList)
       },
       {
+        path: 'assignments/new',
+        loadComponent: () =>
+          import('./features/assignments/pages/assignment-form/assignment-form')
+            .then(m => m.AssignmentForm)
+      },
+      {
         path: 'assignments',
         loadComponent: () =>
           import('./features/assignments/pages/assignment-list/assignment-list')

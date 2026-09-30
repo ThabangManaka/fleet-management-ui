@@ -96,13 +96,15 @@
 
             <tr>
 
-              <td>
-                {{ assignment.vehicleId }}
-              </td>
+            <td>
+            <strong>
+            {{ getVehicleName(assignment.vehicleId) }}
+            </strong>
+            </td>
 
-              <td>
-                {{ assignment.driverId }}
-              </td>
+            <td>
+            {{ getDriverName(assignment.driverId) }}
+            </td>
 
               <td>
                 {{ assignment.assignedAt | date:'dd MMM yyyy HH:mm' }}

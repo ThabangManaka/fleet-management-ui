@@ -20,12 +20,15 @@ export class VehicleAssignmentService {
       this.apiUrl
     );
   }
+  
   createAssignment(
     request: CreateVehicleAssignmentRequest
-  ): Observable<any> {
-    return this.http.post<any>(
+  ): Observable<VehicleAssignment> {
+    return this.http.post<VehicleAssignment>(
       this.apiUrl,
-      { request }
+      {
+        request
+      }
     );
   }
 }
