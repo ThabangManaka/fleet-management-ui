@@ -1,0 +1,154 @@
+<div class="assignment-list-page">
+
+  <div class="page-header">
+
+    <div>
+      <h1>Vehicle Assignments</h1>
+
+      <p>
+        Manage vehicle and driver assignments.
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="primary-button"
+      (click)="addAssignment()">
+
+      + Assign Vehicle
+
+    </button>
+
+  </div>
+
+
+  @if (loading()) {
+
+    <div class="state-card">
+      Loading assignments...
+    </div>
+
+  }
+
+  @else if (error()) {
+
+    <div class="state-card error">
+
+      {{ errorMessage() }}
+
+    </div>
+
+  }
+
+  @else if (assignments().length === 0) {
+
+    <div class="state-card">
+
+      <h2>No assignments found</h2>
+
+      <p>
+        Assign a driver to a vehicle to get started.
+      </p>
+
+      <button
+        type="button"
+        class="primary-button"
+        (click)="addAssignment()">
+
+        Assign Vehicle
+
+      </button>
+
+    </div>
+
+  }
+
+  @else {
+
+    <div class="table-card">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>Vehicle ID</th>
+
+            <th>Driver ID</th>
+
+            <th>Assigned At</th>
+
+            <th>Unassigned At</th>
+
+            <th>Status</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          @for (
+            assignment of assignments();
+            track assignment.id
+          ) {
+
+            <tr>
+
+              <td>
+                {{ assignment.vehicleId }}
+              </td>
+
+              <td>
+                {{ assignment.driverId }}
+              </td>
+
+              <td>
+                {{ assignment.assignedAt | date:'dd MMM yyyy HH:mm' }}
+              </td>
+
+              <td>
+
+                @if (assignment.unassignedAt) {
+
+                  {{ assignment.unassignedAt | date:'dd MMM yyyy HH:mm' }}
+
+                } @else {
+
+                  —
+
+                }
+
+              </td>
+
+              <td>
+
+                <span
+                  class="status"
+                  [class.active]="
+                    !assignment.unassignedAt
+                  "
+                  [class.inactive]="
+                    !!assignment.unassignedAt
+                  ">
+
+                  {{ getStatus(assignment) }}
+
+                </span>
+
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  }
+
+</div>

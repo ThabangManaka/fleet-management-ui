@@ -98,11 +98,11 @@
               </td>
 
               <td>
-                <span
+                <span>
                   class="status"
-                  [class.active]="driver.status === 'Active'"
-                  [class.inactive]="driver.status === 'Inactive'">
-                  {{ driver.status }}
+                  [class.active]="driver.status === 1"
+                  [class.inactive]="driver.status !== 1">
+                  {{ driver.status === 1 ? 'Active' : 'Inactive' }}
                 </span>
               </td>
 
