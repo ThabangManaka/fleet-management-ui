@@ -43,7 +43,13 @@ export const routes: Routes = [
           import('./features/Vehicles/pages/vehicle-details/vehicle-details')
             .then(m => m.VehicleDetails)
       },
-      
+      {
+        path: 'drivers',
+        loadComponent: () =>
+          import('./features/drivers/pages/driver-list/driver-list')
+            .then(m => m.DriverList)
+      },
+            
     ]
   },
 
