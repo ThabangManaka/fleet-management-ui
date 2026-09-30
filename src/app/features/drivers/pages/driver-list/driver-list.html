@@ -1,1 +1,150 @@
-<p>driver-list works!</p>
+<div class="driver-list-page">
+
+  <div class="page-header">
+
+    <div>
+      <h1>Drivers</h1>
+
+      <p>
+        Manage your fleet drivers.
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="primary-button"
+      (click)="addDriver()">
+      + Add Driver
+    </button>
+
+  </div>
+
+  @if (loading()) {
+
+    <div class="state-card">
+      Loading drivers...
+    </div>
+
+  } @else if (error()) {
+
+    <div class="state-card error">
+      {{ errorMessage() }}
+    </div>
+
+  } @else if (drivers().length === 0) {
+
+    <div class="state-card">
+
+      <h2>No drivers found</h2>
+
+      <p>
+        Add your first driver to get started.
+      </p>
+
+      <button
+        type="button"
+        class="primary-button"
+        (click)="addDriver()">
+        Add Driver
+      </button>
+
+    </div>
+
+  } @else {
+
+    <div class="table-card">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Employee Number</th>
+            <th>Name</th>
+            <th>License Number</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          @for (driver of drivers(); track driver.id) {
+
+            <tr>
+
+              <td>
+                {{ driver.employeeNumber }}
+              </td>
+
+              <td>
+                <strong>
+                  {{ driver.firstName }}
+                  {{ driver.lastName }}
+                </strong>
+              </td>
+
+              <td>
+                {{ driver.licenseNumber }}
+              </td>
+
+              <td>
+                {{ driver.phoneNumber }}
+              </td>
+
+              <td>
+                {{ driver.email }}
+              </td>
+
+              <td>
+                <span
+                  class="status"
+                  [class.active]="driver.status === 'Active'"
+                  [class.inactive]="driver.status === 'Inactive'">
+                  {{ driver.status }}
+                </span>
+              </td>
+
+              <td>
+
+                <div class="actions">
+
+                  <button
+                    type="button"
+                    class="action-button"
+                    (click)="viewDriver(driver.id)">
+                    View
+                  </button>
+
+                  <button
+                    type="button"
+                    class="action-button"
+                    (click)="editDriver(driver.id)">
+                    Edit
+                  </button>
+
+                  <button
+                    type="button"
+                    class="action-button delete"
+                    (click)="deleteDriver(driver.id)">
+                    Delete
+                  </button>
+
+                </div>
+
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  }
+
+</div>

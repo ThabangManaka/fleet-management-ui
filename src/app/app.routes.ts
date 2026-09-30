@@ -43,6 +43,24 @@ export const routes: Routes = [
           import('./features/Vehicles/pages/vehicle-details/vehicle-details')
             .then(m => m.VehicleDetails)
       },
+     {
+        path: 'drivers/new',
+        loadComponent: () =>
+          import('./features/drivers/pages/driver-form/driver-form')
+            .then(m => m.DriverForm)
+      },
+      {
+        path: 'drivers/:id/edit',
+        loadComponent: () =>
+          import('./features/drivers/pages/driver-form/driver-form')
+            .then(m => m.DriverForm)
+      },
+      {
+        path: 'drivers/:id',
+        loadComponent: () =>
+          import('./features/drivers/pages/driver-details/driver-details')
+            .then(m => m.DriverDetails)
+      },
       {
         path: 'drivers',
         loadComponent: () =>
