@@ -1,1 +1,337 @@
-<p>driver-form works!</p>
+<div class="driver-form-page">
+
+  <div class="page-header">
+
+    <div>
+
+      <button
+        type="button"
+        class="back-button"
+        (click)="cancel()">
+
+        ← Back to Drivers
+
+      </button>
+
+      <h1>
+        {{ isEditMode()
+          ? 'Edit Driver'
+          : 'Add Driver' }}
+      </h1>
+
+      <p>
+        {{ isEditMode()
+          ? 'Update the driver information below.'
+          : 'Add a new driver to your fleet.' }}
+      </p>
+
+    </div>
+
+  </div>
+
+  @if (loading()) {
+
+    <div class="state-card">
+      Loading driver...
+    </div>
+
+  } @else {
+
+    @if (error()) {
+
+      <div class="state-card error">
+        {{ errorMessage() }}
+      </div>
+
+    }
+
+    <form
+      class="driver-form"
+      [formGroup]="driverForm"
+      (ngSubmit)="saveDriver()">
+
+      <section class="form-section">
+
+        <div class="section-header">
+
+          <h2>Personal Information</h2>
+
+          <p>
+            Enter the driver's personal details.
+          </p>
+
+        </div>
+
+        <div class="form-grid">
+
+          <!-- First Name -->
+
+          <div class="form-group">
+
+            <label for="firstName">
+              First Name
+            </label>
+
+            <input
+              id="firstName"
+              type="text"
+              formControlName="firstName"
+              placeholder="e.g. John"
+              [class.invalid]="
+                driverForm.controls.firstName.touched &&
+                driverForm.controls.firstName.invalid
+              "
+            />
+
+            @if (
+              driverForm.controls.firstName.touched &&
+              driverForm.controls.firstName.invalid
+            ) {
+
+              <span class="validation-message">
+                First name is required.
+              </span>
+
+            }
+
+          </div>
+
+          <!-- Last Name -->
+
+          <div class="form-group">
+
+            <label for="lastName">
+              Last Name
+            </label>
+
+            <input
+              id="lastName"
+              type="text"
+              formControlName="lastName"
+              placeholder="e.g. Smith"
+              [class.invalid]="
+                driverForm.controls.lastName.touched &&
+                driverForm.controls.lastName.invalid
+              "
+            />
+
+            @if (
+              driverForm.controls.lastName.touched &&
+              driverForm.controls.lastName.invalid
+            ) {
+
+              <span class="validation-message">
+                Last name is required.
+              </span>
+
+            }
+
+          </div>
+
+          <!-- Employee Number -->
+
+          <div class="form-group">
+
+            <label for="employeeNumber">
+              Employee Number
+            </label>
+
+            <input
+              id="employeeNumber"
+              type="text"
+              formControlName="employeeNumber"
+              placeholder="e.g. EMP001"
+              [class.invalid]="
+                driverForm.controls.employeeNumber.touched &&
+                driverForm.controls.employeeNumber.invalid
+              "
+            />
+
+            @if (
+              driverForm.controls.employeeNumber.touched &&
+              driverForm.controls.employeeNumber.invalid
+            ) {
+
+              <span class="validation-message">
+                Employee number is required.
+              </span>
+
+            }
+
+          </div>
+
+          <!-- License -->
+
+          <div class="form-group">
+
+            <label for="licenseNumber">
+              License Number
+            </label>
+
+            <input
+              id="licenseNumber"
+              type="text"
+              formControlName="licenseNumber"
+              placeholder="Enter license number"
+              [class.invalid]="
+                driverForm.controls.licenseNumber.touched &&
+                driverForm.controls.licenseNumber.invalid
+              "
+            />
+
+            @if (
+              driverForm.controls.licenseNumber.touched &&
+              driverForm.controls.licenseNumber.invalid
+            ) {
+
+              <span class="validation-message">
+                License number is required.
+              </span>
+
+            }
+
+          </div>
+          <div class="form-group">
+
+            <label for="licenseExpiryDate">
+                License Expiry Date
+            </label>
+
+            <input
+                id="licenseExpiryDate"
+                type="date"
+                formControlName="licenseExpiryDate"
+                [class.invalid]="
+                driverForm.controls.licenseExpiryDate.touched &&
+                driverForm.controls.licenseExpiryDate.invalid
+                "
+            />
+
+            @if (
+                driverForm.controls.licenseExpiryDate.touched &&
+                driverForm.controls.licenseExpiryDate.invalid
+            ) {
+                <span class="validation-message">
+                License expiry date is required.
+                </span>
+            }
+
+            </div>
+
+          <!-- Phone -->
+
+          <div class="form-group">
+
+            <label for="phoneNumber">
+              Phone Number
+            </label>
+
+            <input
+              id="phoneNumber"
+              type="tel"
+              formControlName="phoneNumber"
+              placeholder="e.g. 0821234567"
+              [class.invalid]="
+                driverForm.controls.phoneNumber.touched &&
+                driverForm.controls.phoneNumber.invalid
+              "
+            />
+
+            @if (
+              driverForm.controls.phoneNumber.touched &&
+              driverForm.controls.phoneNumber.invalid
+            ) {
+
+              <span class="validation-message">
+                Phone number is required.
+              </span>
+
+            }
+
+          </div>
+
+          <!-- Email -->
+
+          <div class="form-group">
+
+            <label for="email">
+              Email Address
+            </label>
+
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              placeholder="driver@example.com"
+              [class.invalid]="
+                driverForm.controls.email.touched &&
+                driverForm.controls.email.invalid
+              "
+            />
+
+            @if (
+              driverForm.controls.email.touched &&
+              driverForm.controls.email.invalid
+            ) {
+
+              <span class="validation-message">
+
+                @if (
+                  driverForm.controls.email.errors?.['required']
+                ) {
+                  Email address is required.
+                } @else {
+                  Please enter a valid email address.
+                }
+
+              </span>
+
+            }
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <div class="form-actions">
+
+        <!-- <button
+          type="button"
+          class="secondary-button"
+          (click)="cancel()"
+          [disabled]="saving()">
+
+          Cancel
+
+        </button> -->
+
+        <button
+          type="submit"
+          class="primary-button"
+          [disabled]="
+            saving() ||
+            driverForm.invalid
+          ">
+
+          @if (saving()) {
+
+            Saving driver...
+
+          } @else {
+
+            {{ isEditMode()
+              ? 'Update Driver'
+              : 'Save Driver' }}
+
+          }
+
+        </button>
+
+      </div>
+
+    </form>
+
+  }
+
+</div>

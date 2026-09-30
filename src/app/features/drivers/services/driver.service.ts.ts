@@ -1,7 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Driver } from '../../Vehicles/models/driver.model';
+import { Driver } from '../models/driver.model';
+import { CreateDriverRequest } from '../models/CreateDriverRequest.model';
 
 
 
@@ -30,4 +31,16 @@ export class DriverService {
       `${this.apiUrl}/${id}`
     );
   }
+
+  createDriver(
+  request: CreateDriverRequest
+): Observable<Driver> {
+
+  return this.http.post<Driver>(
+    this.apiUrl,
+    {
+      request
+    }
+  );
+}
 }

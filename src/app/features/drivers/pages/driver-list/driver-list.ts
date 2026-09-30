@@ -7,7 +7,7 @@ import {
 
 import { Router } from '@angular/router';
 import { DriverService } from '../../services/driver.service.ts';
-import { Driver } from '../../../Vehicles/models/driver.model.js';
+import { Driver } from '../../models/driver.model.js';
 
 @Component({
   selector: 'app-driver-list',
