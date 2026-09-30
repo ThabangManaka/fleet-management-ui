@@ -17,6 +17,7 @@ import {
 } from '@angular/router';
 import { DriverService } from '../../services/driver.service.ts';
 import { CreateDriverRequest } from '../../models/CreateDriverRequest.model.js';
+import { UpdateDriverRequest } from '../../models/update-driver-request.model.js';
 
 
 
@@ -97,7 +98,8 @@ export class DriverForm implements OnInit {
         Validators.email,
         Validators.maxLength(100)
       ]
-    ]
+    ],
+      status: [1]
   });
 
   ngOnInit(): void {
@@ -183,26 +185,129 @@ saveDriver(): void {
     return;
   }
 
+  console.log('Edit mode:', this.isEditMode());
+  console.log('Driver ID:', this.driverId());
+
   this.saving.set(true);
   this.error.set(false);
   this.errorMessage.set('');
 
-  const request: CreateDriverRequest = {
-    employeeNumber: this.driverForm.controls.employeeNumber.value.trim(),
-    firstName: this.driverForm.controls.firstName.value.trim(),
-    lastName: this.driverForm.controls.lastName.value.trim(),
-    email: this.driverForm.controls.email.value.trim(),
-    phoneNumber: this.driverForm.controls.phoneNumber.value.trim(),
-    licenseNumber: this.driverForm.controls.licenseNumber.value.trim(),
+  const request: UpdateDriverRequest = {
+    employeeNumber:
+      this.driverForm.controls.employeeNumber.value.trim(),
+
+    firstName:
+      this.driverForm.controls.firstName.value.trim(),
+
+    lastName:
+      this.driverForm.controls.lastName.value.trim(),
+
+    email:
+      this.driverForm.controls.email.value.trim(),
+
+    phoneNumber:
+      this.driverForm.controls.phoneNumber.value.trim(),
+
+    licenseNumber:
+      this.driverForm.controls.licenseNumber.value.trim(),
+
     licenseExpiryDate:
-      this.driverForm.controls.licenseExpiryDate.value
+      this.driverForm.controls.licenseExpiryDate.value,
+
+    status:
+      this.driverForm.controls.status.value
   };
 
-  console.log('Creating driver:', request);
+  // =========================
+  // EDIT DRIVER
+  // =========================
+  if (this.isEditMode() && this.driverId()) {
 
-  this.driverService.createDriver(request).subscribe({
+    const id = this.driverId()!;
+
+    console.log('Updating driver:', {
+      id,
+      request
+    });
+
+    this.driverService.updateDriver(id, request).subscribe({
+      next: (response) => {
+        console.log(
+          'Driver updated successfully:',
+          response
+        );
+
+        this.saving.set(false);
+
+        this.router.navigate(['/drivers'], {
+          state: {
+            successMessage:
+              `Driver ${response.firstName} ${response.lastName} updated successfully.`
+          }
+        });
+      },
+
+      error: (error) => {
+        console.error(
+          'Failed to update driver:',
+          error
+        );
+
+        console.error(
+          'Validation errors:',
+          error?.error?.errors
+        );
+
+        this.saving.set(false);
+        this.error.set(true);
+
+        this.errorMessage.set(
+          'Failed to update driver. Please check the information and try again.'
+        );
+      }
+    });
+
+    return;
+  }
+
+  // =========================
+  // CREATE DRIVER
+  // =========================
+
+  const createRequest: CreateDriverRequest = {
+    employeeNumber:
+      request.employeeNumber,
+
+    firstName:
+      request.firstName,
+
+    lastName:
+      request.lastName,
+
+    email:
+      request.email,
+
+    phoneNumber:
+      request.phoneNumber,
+
+    licenseNumber:
+      request.licenseNumber,
+
+    licenseExpiryDate:
+      request.licenseExpiryDate
+  };
+
+  console.log(
+    'Creating driver:',
+    createRequest
+  );
+
+  this.driverService.createDriver(createRequest).subscribe({
     next: (response) => {
-      console.log('Driver created successfully:', response);
+      console.log(
+        'Driver created successfully:',
+        response
+      );
 
       this.saving.set(false);
 
@@ -215,14 +320,18 @@ saveDriver(): void {
     },
 
     error: (error) => {
-      console.error('Failed to create driver:', error);
+      console.error(
+        'Failed to create driver:',
+        error
+      );
+
+      console.error(
+        'Validation errors:',
+        error?.error?.errors
+      );
 
       this.saving.set(false);
       this.error.set(true);
-
-      if (error?.error?.errors) {
-        console.error('Validation errors:', error.error.errors);
-      }
 
       this.errorMessage.set(
         'Failed to create driver. Please check the information and try again.'

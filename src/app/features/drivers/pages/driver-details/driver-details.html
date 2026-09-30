@@ -1,1 +1,132 @@
-<p>driver-details works!</p>
+<div class="driver-details-page">
+
+  @if (loading()) {
+
+    <div class="state-card">
+      <p>Loading driver...</p>
+    </div>
+
+  } @else if (error()) {
+
+    <div class="state-card error">
+      <h2>Unable to load driver</h2>
+      <p>{{ errorMessage() }}</p>
+
+      <button
+        type="button"
+        class="primary-button"
+        (click)="backToDrivers()">
+        Back to Drivers
+      </button>
+    </div>
+
+  } @else if (driver()) {
+
+    <div class="page-header">
+
+      <div>
+        <button
+          type="button"
+          class="back-button"
+          (click)="backToDrivers()">
+          ← Back to Drivers
+        </button>
+
+        <h1>
+          {{ driver()!.firstName }}
+          {{ driver()!.lastName }}
+        </h1>
+
+        <p>
+          Employee Number:
+          <strong>{{ driver()!.employeeNumber }}</strong>
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="primary-button"
+        (click)="editDriver()">
+        Edit Driver
+      </button>
+
+    </div>
+
+    <div class="details-card">
+
+      <div class="section-header">
+        <h2>Driver Information</h2>
+        <p>Driver profile and licence information.</p>
+      </div>
+
+      <div class="details-grid">
+
+        <div class="detail-item">
+          <span class="label">First Name</span>
+          <span class="value">
+            {{ driver()!.firstName }}
+          </span>
+        </div>
+
+        <div class="detail-item">
+          <span class="label">Last Name</span>
+          <span class="value">
+            {{ driver()!.lastName }}
+          </span>
+        </div>
+
+        <div class="detail-item">
+          <span class="label">Employee Number</span>
+          <span class="value">
+            {{ driver()!.employeeNumber }}
+          </span>
+        </div>
+
+        <div class="detail-item">
+          <span class="label">Email</span>
+          <span class="value">
+            {{ driver()!.email }}
+          </span>
+        </div>
+
+        <div class="detail-item">
+          <span class="label">Phone Number</span>
+          <span class="value">
+            {{ driver()!.phoneNumber }}
+          </span>
+        </div>
+
+        <div class="detail-item">
+          <span class="label">License Number</span>
+          <span class="value">
+            {{ driver()!.licenseNumber }}
+          </span>
+        </div>
+
+        <div class="detail-item">
+          <span class="label">License Expiry Date</span>
+          <span class="value">
+            {{ driver()!.licenseExpiryDate }}
+          </span>
+        </div>
+
+        <div class="detail-item">
+          <span class="label">Status</span>
+
+          <span
+            class="status"
+            [class.active]="driver()!.status === 1"
+            [class.inactive]="driver()!.status !== 1">
+
+            {{ driver()!.status === 1 ? 'Active' : 'Inactive' }}
+
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

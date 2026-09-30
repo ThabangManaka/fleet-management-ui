@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Driver } from '../models/driver.model';
 import { CreateDriverRequest } from '../models/CreateDriverRequest.model';
+import { UpdateDriverRequest } from '../models/update-driver-request.model';
 
 
 
@@ -43,4 +44,18 @@ export class DriverService {
     }
   );
 }
+updateDriver(
+  id: string,
+  request: UpdateDriverRequest
+): Observable<Driver> {
+  return this.http.put<Driver>(
+    `${this.apiUrl}/${id}`,
+    {
+      id,
+      request
+    }
+  );
+}
+
+
 }

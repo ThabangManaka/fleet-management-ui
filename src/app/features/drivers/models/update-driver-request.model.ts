@@ -1,5 +1,4 @@
-export interface Driver {
-  id: string;
+export interface UpdateDriverRequest {
   employeeNumber: string;
   firstName: string;
   lastName: string;
@@ -8,6 +7,4 @@ export interface Driver {
   licenseNumber: string;
   licenseExpiryDate: string;
   status: number;
-  createdAt: string;
-  updatedAt?: string | null;
 }
