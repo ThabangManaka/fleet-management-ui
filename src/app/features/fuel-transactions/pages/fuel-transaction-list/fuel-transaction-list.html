@@ -1,0 +1,157 @@
+<div class="page-container">
+
+  <div class="page-header">
+
+    <div>
+      <h1>Fuel Transactions</h1>
+      <p>Track fuel usage and fuel costs for your vehicles.</p>
+    </div>
+
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="addFuelTransaction()">
+      + Add Fuel Transaction
+    </button>
+
+  </div>
+
+  @if (error()) {
+    <div class="error-message">
+      {{ errorMessage() }}
+    </div>
+  }
+
+  @if (loading()) {
+
+    <div class="loading">
+      Loading fuel transactions...
+    </div>
+
+  } @else if (fuelTransactions().length === 0) {
+
+    <div class="empty-state">
+
+      <h3>No Fuel Transactions</h3>
+
+      <p>
+        No fuel transactions have been recorded yet.
+      </p>
+
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="addFuelTransaction()">
+        Add Fuel Transaction
+      </button>
+
+    </div>
+
+  } @else {
+
+    <div class="table-card">
+
+      <div class="table-wrapper">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>Vehicle</th>
+              <th>Date</th>
+              <th>Mileage</th>
+              <th>Litres</th>
+              <th>Price / L</th>
+              <th>Total Cost</th>
+              <th>Fuel Type</th>
+              <th>Fuel Station</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            @for (
+              transaction of fuelTransactions();
+              track transaction.id
+            ) {
+
+              <tr>
+
+                <td>
+                  <strong>
+                    {{ getVehicleName(transaction.vehicleId) }}
+                  </strong>
+                </td>
+
+                <td>
+                  {{ transaction.transactionDate | date:'dd MMM yyyy HH:mm' }}
+                </td>
+
+                <td>
+                  {{ transaction.mileage | number }}
+                </td>
+
+                <td>
+                  {{ transaction.litres | number:'1.2-2' }} L
+                </td>
+
+                <td>
+                  R {{ transaction.pricePerLitre | number:'1.2-2' }}
+                </td>
+
+                <td>
+                  <strong>
+                    R {{
+                      transaction.litres *
+                      transaction.pricePerLitre
+                      | number:'1.2-2'
+                    }}
+                  </strong>
+                </td>
+
+                <td>
+                  {{ transaction.fuelType }}
+                </td>
+
+                <td>
+                  {{ transaction.fuelStation || '—' }}
+                </td>
+
+                <td>
+
+                  <div class="actions">
+
+                    <button
+                      type="button"
+                      class="btn btn-edit"
+                      (click)="editFuelTransaction(transaction.id)">
+                      Edit
+                    </button>
+
+                    <button
+                      type="button"
+                      class="btn btn-danger"
+                      (click)="deleteFuelTransaction(transaction)">
+                      Delete
+                    </button>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

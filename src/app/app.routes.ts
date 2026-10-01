@@ -79,12 +79,24 @@ export const routes: Routes = [
           import('./features/assignments/pages/assignment-list/assignment-list')
             .then(m => m.AssignmentList)
       },
-      {
-        path: 'fuel-transactions',
+     {
+        path: 'fuel-transactions/new',
         loadComponent: () =>
-          import('./features/fuel-transactions/pages/fuel-transaction-list/fuel-transaction-list')
-            .then(m => m.FuelTransactionList)
+          import('./features/fuel-transactions/pages/fuel-transaction-form/fuel-transaction-form')
+            .then(m => m.FuelTransactionForm)
       },
+    {
+      path: 'fuel-transactions/:id/edit',
+      loadComponent: () =>
+        import('./features/fuel-transactions/pages/fuel-transaction-form/fuel-transaction-form')
+          .then(m => m.FuelTransactionForm)
+    },
+    {
+      path: 'fuel-transactions',
+      loadComponent: () =>
+        import('./features/fuel-transactions/pages/fuel-transaction-list/fuel-transaction-list')
+          .then(m => m.FuelTransactionList)
+    },
             
     ]
   },
