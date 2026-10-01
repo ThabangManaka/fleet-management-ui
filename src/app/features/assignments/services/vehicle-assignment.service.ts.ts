@@ -29,4 +29,11 @@ createAssignment(
     request
   );
 }
+
+unassignDriver(id: string): Observable<void> {
+  return this.http.put<void>(
+    `${this.apiUrl}/${id}/unassign`,
+    {}
+  );
+}
 }

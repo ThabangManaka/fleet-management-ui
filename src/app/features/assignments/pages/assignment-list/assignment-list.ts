@@ -134,12 +134,58 @@ getDriverName(driverId: string): string {
     ]);
   }
 
-  getStatus(
-    assignment: VehicleAssignment
-  ): string {
+getStatus(assignment: VehicleAssignment): string {
+  return assignment.unassignedAt
+    ? 'Inactive'
+    : 'Active';
+}
+ unassignAssignment(assignment: VehicleAssignment): void {
 
-    return assignment.unassignedAt
-      ? 'Unassigned'
-      : 'Active';
+  if (assignment.unassignedAt) {
+    return;
   }
+
+  const confirmed = window.confirm(
+    'Are you sure you want to unassign this vehicle?'
+  );
+
+  if (!confirmed) {
+    return;
+  }
+
+  console.log(
+    'Unassigning assignment:',
+    assignment.id
+  );
+
+  this.assignmentService
+    .unassignDriver(assignment.id)
+    .subscribe({
+
+      next: () => {
+
+        console.log(
+          'Vehicle unassigned successfully.'
+        );
+
+        this.loadData();
+      },
+
+      error: (error) => {
+
+        console.error(
+          'Failed to unassign vehicle:',
+          error
+        );
+
+        this.error.set(true);
+
+        this.errorMessage.set(
+          'Failed to unassign vehicle. Please try again.'
+        );
+      }
+
+    });
+}
+  
 }

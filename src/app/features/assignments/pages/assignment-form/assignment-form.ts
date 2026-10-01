@@ -21,6 +21,7 @@ import { Driver } from '../../../drivers/models/driver.model';
 import { CreateVehicleAssignmentRequest } from '../../models/create-vehicle-assignment-request.model';
 import { DriverService } from '../../../drivers/services/driver.service.ts';
 import { VehicleAssignmentService } from '../../services/vehicle-assignment.service.ts';
+import { VehicleAssignment } from '../../models/vehicle-assignment.model';
 
 @Component({
   selector: 'app-assignment-form',

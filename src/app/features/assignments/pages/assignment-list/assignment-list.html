@@ -82,6 +82,7 @@
             <th>Unassigned At</th>
 
             <th>Status</th>
+            <th>Action</th>
 
           </tr>
 
@@ -140,6 +141,25 @@
                 </span>
 
               </td>
+
+              <td>
+            @if (!assignment.unassignedAt) {
+
+                <button
+                type="button"
+                class="btn btn-danger"
+                (click)="unassignAssignment(assignment)">
+                Unassign
+                </button>
+
+            } @else {
+
+                <span class="completed">
+                Completed
+                </span>
+
+            }
+            </td>
 
             </tr>
 
