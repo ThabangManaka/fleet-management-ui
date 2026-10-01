@@ -1,0 +1,331 @@
+<div class="page-container">
+
+  <div class="page-header">
+
+    <div>
+      <h1>
+        {{ isEditMode() ? 'Edit Fuel Transaction' : 'Add Fuel Transaction' }}
+      </h1>
+
+      <p>
+        {{ isEditMode()
+          ? 'Update the fuel transaction details.'
+          : 'Record fuel purchased for a vehicle.' }}
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="cancel()"
+      [disabled]="saving()">
+      Back
+    </button>
+
+  </div>
+
+  @if (error()) {
+    <div class="error-message">
+      {{ errorMessage() }}
+    </div>
+  }
+
+  @if (loading()) {
+
+    <div class="loading">
+      Loading...
+    </div>
+
+  } @else {
+
+    <div class="form-card">
+
+      <form
+        [formGroup]="fuelForm"
+        (ngSubmit)="saveFuelTransaction()">
+
+        <!-- Vehicle -->
+
+        <div class="form-group">
+
+          <label for="vehicleId">
+            Vehicle
+          </label>
+
+          <select
+            id="vehicleId"
+            formControlName="vehicleId"
+            [disabled]="isEditMode()">
+
+            <option value="">
+              Select a vehicle
+            </option>
+
+            @for (
+              vehicle of vehicles();
+              track vehicle.id
+            ) {
+
+              <option [value]="vehicle.id">
+                {{ vehicle.registrationNumber }}
+                — {{ vehicle.make }} {{ vehicle.model }}
+              </option>
+
+            }
+
+          </select>
+
+          @if (
+            fuelForm.controls.vehicleId.touched &&
+            fuelForm.controls.vehicleId.invalid
+          ) {
+
+            <div class="field-error">
+              Please select a vehicle.
+            </div>
+
+          }
+
+        </div>
+
+        <!-- Transaction Date -->
+
+        <div class="form-group">
+
+          <label for="transactionDate">
+            Transaction Date
+          </label>
+
+          <input
+            id="transactionDate"
+            type="datetime-local"
+            formControlName="transactionDate" />
+
+          @if (
+            fuelForm.controls.transactionDate.touched &&
+            fuelForm.controls.transactionDate.invalid
+          ) {
+
+            <div class="field-error">
+              Please enter the transaction date.
+            </div>
+
+          }
+
+        </div>
+
+        <!-- Mileage -->
+
+        <div class="form-group">
+
+          <label for="mileage">
+            Mileage
+          </label>
+
+          <input
+            id="mileage"
+            type="number"
+            formControlName="mileage"
+            min="0" />
+
+          @if (
+            fuelForm.controls.mileage.touched &&
+            fuelForm.controls.mileage.invalid
+          ) {
+
+            <div class="field-error">
+              Mileage must be zero or greater.
+            </div>
+
+          }
+
+        </div>
+
+        <!-- Litres -->
+
+        <div class="form-group">
+
+          <label for="litres">
+            Litres
+          </label>
+
+          <input
+            id="litres"
+            type="number"
+            formControlName="litres"
+            min="0.01"
+            step="0.01" />
+
+          @if (
+            fuelForm.controls.litres.touched &&
+            fuelForm.controls.litres.invalid
+          ) {
+
+            <div class="field-error">
+              Litres must be greater than zero.
+            </div>
+
+          }
+
+        </div>
+
+        <!-- Price Per Litre -->
+
+        <div class="form-group">
+
+          <label for="pricePerLitre">
+            Price Per Litre
+          </label>
+
+          <input
+            id="pricePerLitre"
+            type="number"
+            formControlName="pricePerLitre"
+            min="0.01"
+            step="0.01" />
+
+          @if (
+            fuelForm.controls.pricePerLitre.touched &&
+            fuelForm.controls.pricePerLitre.invalid
+          ) {
+
+            <div class="field-error">
+              Price per litre must be greater than zero.
+            </div>
+
+          }
+
+        </div>
+
+        <!-- Fuel Type -->
+
+        <div class="form-group">
+
+          <label for="fuelType">
+            Fuel Type
+          </label>
+
+          <select
+            id="fuelType"
+            formControlName="fuelType">
+
+            <option value="">
+              Select fuel type
+            </option>
+
+            <option value="Petrol">
+              Petrol
+            </option>
+
+            <option value="Diesel">
+              Diesel
+            </option>
+
+            <option value="Electric">
+              Electric
+            </option>
+
+            <option value="Hybrid">
+              Hybrid
+            </option>
+
+          </select>
+
+          @if (
+            fuelForm.controls.fuelType.touched &&
+            fuelForm.controls.fuelType.invalid
+          ) {
+
+            <div class="field-error">
+              Please select a fuel type.
+            </div>
+
+          }
+
+        </div>
+
+        <!-- Fuel Station -->
+
+        <div class="form-group">
+
+          <label for="fuelStation">
+            Fuel Station
+          </label>
+
+          <input
+            id="fuelStation"
+            type="text"
+            formControlName="fuelStation"
+            placeholder="e.g. Shell, Engen, BP" />
+
+        </div>
+
+        <!-- Receipt Number -->
+
+        <div class="form-group">
+
+          <label for="receiptNumber">
+            Receipt Number
+          </label>
+
+          <input
+            id="receiptNumber"
+            type="text"
+            formControlName="receiptNumber"
+            placeholder="Optional" />
+
+        </div>
+
+        <!-- Notes -->
+
+        <div class="form-group">
+
+          <label for="notes">
+            Notes
+          </label>
+
+          <textarea
+            id="notes"
+            formControlName="notes"
+            rows="4"
+            placeholder="Optional notes">
+          </textarea>
+
+        </div>
+
+        <!-- Actions -->
+
+        <div class="form-actions">
+
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="cancel()"
+            [disabled]="saving()">
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="saving()">
+
+            @if (saving()) {
+              Saving...
+            } @else {
+              {{ isEditMode()
+                ? 'Update Transaction'
+                : 'Add Transaction' }}
+            }
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  }
+
+</div>
