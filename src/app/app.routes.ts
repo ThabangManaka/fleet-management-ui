@@ -78,7 +78,13 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/assignments/pages/assignment-list/assignment-list')
             .then(m => m.AssignmentList)
-      }
+      },
+      {
+        path: 'fuel-transactions',
+        loadComponent: () =>
+          import('./features/fuel-transactions/pages/fuel-transaction-list/fuel-transaction-list')
+            .then(m => m.FuelTransactionList)
+      },
             
     ]
   },
