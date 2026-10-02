@@ -1,1 +1,306 @@
-<p>maintenance-form works!</p>
+<div class="page-container">
+
+  <div class="page-header">
+
+    <div>
+      <h1>
+        {{
+          isEditMode()
+            ? 'Edit Maintenance'
+            : 'Add Maintenance'
+        }}
+      </h1>
+
+      <p>
+        {{
+          isEditMode()
+            ? 'Update the maintenance record.'
+            : 'Record maintenance performed on a vehicle.'
+        }}
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="cancel()"
+      [disabled]="saving()">
+      Back
+    </button>
+
+  </div>
+
+  @if (error()) {
+
+    <div class="error-message">
+      {{ errorMessage() }}
+    </div>
+
+  }
+
+  @if (loading()) {
+
+    <div class="loading">
+      Loading...
+    </div>
+
+  } @else {
+
+    <div class="form-card">
+
+      <form
+        [formGroup]="maintenanceForm"
+        (ngSubmit)="saveMaintenance()">
+
+        <div class="form-group">
+
+          <label for="vehicleId">
+            Vehicle
+          </label>
+
+          <select
+            id="vehicleId"
+            formControlName="vehicleId"
+            [disabled]="isEditMode()">
+
+            <option value="">
+              Select a vehicle
+            </option>
+
+            @for (
+              vehicle of vehicles();
+              track vehicle.id
+            ) {
+
+              <option [value]="vehicle.id">
+                {{ vehicle.registrationNumber }}
+                — {{ vehicle.make }}
+                {{ vehicle.model }}
+              </option>
+
+            }
+
+          </select>
+
+          @if (
+            maintenanceForm.controls.vehicleId.touched &&
+            maintenanceForm.controls.vehicleId.invalid
+          ) {
+
+            <div class="field-error">
+              Please select a vehicle.
+            </div>
+
+          }
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="maintenanceType">
+            Maintenance Type
+          </label>
+
+          <input
+            id="maintenanceType"
+            type="text"
+            formControlName="maintenanceType"
+            placeholder="e.g. Major Service" />
+
+          @if (
+            maintenanceForm.controls.maintenanceType.touched &&
+            maintenanceForm.controls.maintenanceType.invalid
+          ) {
+
+            <div class="field-error">
+              Please enter the maintenance type.
+            </div>
+
+          }
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="description">
+            Description
+          </label>
+
+          <textarea
+            id="description"
+            formControlName="description"
+            rows="3"
+            placeholder="Describe the maintenance performed">
+          </textarea>
+
+          @if (
+            maintenanceForm.controls.description.touched &&
+            maintenanceForm.controls.description.invalid
+          ) {
+
+            <div class="field-error">
+              Please enter a description.
+            </div>
+
+          }
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="serviceDate">
+            Service Date
+          </label>
+
+          <input
+            id="serviceDate"
+            type="datetime-local"
+            formControlName="serviceDate" />
+
+          @if (
+            maintenanceForm.controls.serviceDate.touched &&
+            maintenanceForm.controls.serviceDate.invalid
+          ) {
+
+            <div class="field-error">
+              Please enter the service date.
+            </div>
+
+          }
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="mileage">
+            Mileage
+          </label>
+
+          <input
+            id="mileage"
+            type="number"
+            formControlName="mileage"
+            min="0" />
+
+          @if (
+            maintenanceForm.controls.mileage.touched &&
+            maintenanceForm.controls.mileage.invalid
+          ) {
+
+            <div class="field-error">
+              Mileage must be zero or greater.
+            </div>
+
+          }
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="cost">
+            Cost
+          </label>
+
+          <input
+            id="cost"
+            type="number"
+            formControlName="cost"
+            min="0"
+            step="0.01" />
+
+          @if (
+            maintenanceForm.controls.cost.touched &&
+            maintenanceForm.controls.cost.invalid
+          ) {
+
+            <div class="field-error">
+              Cost must be zero or greater.
+            </div>
+
+          }
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="status">
+            Status
+          </label>
+
+          <select
+            id="status"
+            formControlName="status">
+
+            <option [value]="1">
+              Scheduled
+            </option>
+
+            <option [value]="2">
+              In Progress
+            </option>
+
+            <option [value]="3">
+              Completed
+            </option>
+
+            <option [value]="4">
+              Cancelled
+            </option>
+
+          </select>
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="notes">
+            Notes
+          </label>
+
+          <textarea
+            id="notes"
+            formControlName="notes"
+            rows="4"
+            placeholder="Optional notes">
+          </textarea>
+
+        </div>
+
+        <div class="form-actions">
+
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="cancel()"
+            [disabled]="saving()">
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="saving()">
+
+            @if (saving()) {
+              Saving...
+            } @else {
+
+              {{
+                isEditMode()
+                  ? 'Update Maintenance'
+                  : 'Add Maintenance'
+              }}
+
+            }
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  }
+
+</div>

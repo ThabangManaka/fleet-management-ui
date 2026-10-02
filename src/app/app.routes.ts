@@ -98,8 +98,8 @@ export const routes: Routes = [
           .then(m => m.FuelTransactionList)
     },
     {
-    path: 'maintenance/new',
-    loadComponent: () =>
+      path: 'maintenance/new',
+       loadComponent: () =>
       import('./features/maintenance/pages/maintenance-form/maintenance-form')
         .then(m => m.MaintenanceForm)
       },
