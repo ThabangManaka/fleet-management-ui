@@ -97,6 +97,24 @@ export const routes: Routes = [
         import('./features/fuel-transactions/pages/fuel-transaction-list/fuel-transaction-list')
           .then(m => m.FuelTransactionList)
     },
+    {
+    path: 'maintenance/new',
+    loadComponent: () =>
+      import('./features/maintenance/pages/maintenance-form/maintenance-form')
+        .then(m => m.MaintenanceForm)
+      },
+      {
+        path: 'maintenance/:id/edit',
+        loadComponent: () =>
+          import('./features/maintenance/pages/maintenance-form/maintenance-form')
+            .then(m => m.MaintenanceForm)
+      },
+      {
+        path: 'maintenance',
+        loadComponent: () =>
+          import('./features/maintenance/pages/maintenance-list/maintenance-list')
+            .then(m => m.MaintenanceList)
+      },
             
     ]
   },
