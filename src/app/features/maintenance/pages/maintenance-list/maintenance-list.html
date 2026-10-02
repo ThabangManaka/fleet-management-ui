@@ -1,0 +1,168 @@
+<div class="page-container">
+
+  <div class="page-header">
+
+    <div>
+      <h1>Maintenance</h1>
+
+      <p>
+        Track vehicle servicing, repairs and maintenance costs.
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="addMaintenance()">
+      + Add Maintenance
+    </button>
+
+  </div>
+
+  @if (error()) {
+    <div class="error-message">
+      {{ errorMessage() }}
+    </div>
+  }
+
+  @if (loading()) {
+
+    <div class="loading">
+      Loading maintenance records...
+    </div>
+
+  } @else if (maintenances().length === 0) {
+
+    <div class="empty-state">
+
+      <h3>No Maintenance Records</h3>
+
+      <p>
+        No maintenance records have been recorded yet.
+      </p>
+
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="addMaintenance()">
+        Add Maintenance
+      </button>
+
+    </div>
+
+  } @else {
+
+    <div class="table-card">
+
+      <div class="table-wrapper">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>Vehicle</th>
+              <th>Maintenance Type</th>
+              <th>Description</th>
+              <th>Service Date</th>
+              <th>Mileage</th>
+              <th>Cost</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            @for (
+              maintenance of maintenances();
+              track maintenance.id
+            ) {
+
+              <tr>
+
+                <td>
+                  <strong>
+                    {{ getVehicleName(maintenance.vehicleId) }}
+                  </strong>
+                </td>
+
+                <td>
+                  {{ maintenance.maintenanceType }}
+                </td>
+
+                <td>
+                  {{ maintenance.description }}
+                </td>
+
+                <td>
+                  {{
+                    maintenance.serviceDate
+                      | date:'dd MMM yyyy HH:mm'
+                  }}
+                </td>
+
+                <td>
+                  {{ maintenance.mileage | number }}
+                </td>
+
+                <td>
+                  <strong>
+                    R {{
+                      maintenance.cost
+                        | number:'1.2-2'
+                    }}
+                  </strong>
+                </td>
+
+                <td>
+
+                  <span
+                    class="status"
+                    [class.scheduled]="maintenance.status === 1"
+                    [class.in-progress]="maintenance.status === 2"
+                    [class.completed]="maintenance.status === 3"
+                    [class.cancelled]="maintenance.status === 4">
+
+                    {{ getStatus(maintenance.status) }}
+
+                  </span>
+
+                </td>
+
+                <td>
+
+                  <div class="actions">
+
+                    <button
+                      type="button"
+                      class="btn btn-edit"
+                      (click)="editMaintenance(maintenance.id)">
+                      Edit
+                    </button>
+
+                    <button
+                      type="button"
+                      class="btn btn-danger"
+                      (click)="deleteMaintenance(maintenance)">
+                      Delete
+                    </button>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>
