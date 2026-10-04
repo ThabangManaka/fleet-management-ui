@@ -115,6 +115,24 @@ export const routes: Routes = [
           import('./features/maintenance/pages/maintenance-list/maintenance-list')
             .then(m => m.MaintenanceList)
       },
+      {
+        path: 'trips/new',
+        loadComponent: () =>
+          import('./features/trips/pages/trip-form/trip-form')
+            .then(m => m.TripForm)
+      },
+      {
+        path: 'trips/:id/edit',
+        loadComponent: () =>
+          import('./features/trips/pages/trip-form/trip-form')
+            .then(m => m.TripForm)
+      },
+      {
+        path: 'trips',
+        loadComponent: () =>
+          import('./features/trips/pages/trip-list/trip-list')
+            .then(m => m.TripList)
+      },
             
     ]
   },
