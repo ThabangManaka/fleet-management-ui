@@ -1,0 +1,123 @@
+<div class="page-header">
+  <div>
+    <h1>Trips</h1>
+    <p>Manage vehicle trips and journeys.</p>
+  </div>
+
+  <button
+    type="button"
+    class="btn-primary"
+    (click)="addTrip()">
+    + Add Trip
+  </button>
+</div>
+
+<div
+  *ngIf="loading"
+  class="loading">
+  Loading trips...
+</div>
+
+<div
+  *ngIf="error"
+  class="error-message">
+  {{ errorMessage }}
+</div>
+
+<div
+  *ngIf="!loading && !error"
+  class="table-container">
+
+  <table>
+    <thead>
+      <tr>
+        <th>Vehicle</th>
+        <th>Driver</th>
+        <th>Start Location</th>
+        <th>Destination</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Start Mileage</th>
+        <th>End Mileage</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let trip of trips">
+
+        <td>
+          {{ getVehicleName(trip.vehicleId) }}
+        </td>
+
+        <td>
+          {{ getDriverName(trip.driverId) }}
+        </td>
+
+        <td>
+          {{ trip.startLocation }}
+        </td>
+
+        <td>
+          {{ trip.destination }}
+        </td>
+
+        <td>
+          {{ trip.startDate | date:'medium' }}
+        </td>
+
+        <td>
+          {{ trip.endDate
+            ? (trip.endDate | date:'medium')
+            : '-' }}
+        </td>
+
+        <td>
+          {{ trip.startMileage }}
+        </td>
+
+        <td>
+          {{ trip.endMileage ?? '-' }}
+        </td>
+
+        <td>
+          <span
+            class="status"
+            [ngClass]="getStatusClass(trip.status)">
+            {{ getStatus(trip.status) }}
+          </span>
+        </td>
+
+        <td class="actions">
+
+          <button
+            type="button"
+            class="btn-edit"
+            (click)="editTrip(trip)">
+            Edit
+          </button>
+
+          <button
+            type="button"
+            class="btn-delete"
+            (click)="deleteTrip(trip)">
+            Delete
+          </button>
+
+        </td>
+
+      </tr>
+
+      <tr *ngIf="trips.length === 0">
+        <td
+          colspan="10"
+          class="empty-state">
+          No trips found.
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+
+</div>
