@@ -145,3 +145,84 @@
   }
 
 </div>
+
+<!-- Vehicle Status -->
+<div class="section-title">
+  Vehicle Status
+</div>
+
+@if (dashboard(); as data) {
+
+  <div class="status-card">
+
+    <div class="status-row">
+      <div class="status-info">
+        <span class="status-dot available"></span>
+        <span>Available</span>
+      </div>
+
+      <strong>
+        {{ data.availableVehicles }}
+      </strong>
+    </div>
+
+    <div class="status-bar">
+      <div
+        class="status-fill available"
+        [style.width.%]="
+          data.totalVehicles > 0
+            ? (data.availableVehicles / data.totalVehicles) * 100
+            : 0
+        ">
+      </div>
+    </div>
+
+
+    <div class="status-row">
+      <div class="status-info">
+        <span class="status-dot assigned"></span>
+        <span>Assigned</span>
+      </div>
+
+      <strong>
+        {{ data.assignedVehicles }}
+      </strong>
+    </div>
+
+    <div class="status-bar">
+      <div
+        class="status-fill assigned"
+        [style.width.%]="
+          data.totalVehicles > 0
+            ? (data.assignedVehicles / data.totalVehicles) * 100
+            : 0
+        ">
+      </div>
+    </div>
+
+
+    <div class="status-row">
+      <div class="status-info">
+        <span class="status-dot maintenance"></span>
+        <span>Maintenance</span>
+      </div>
+
+      <strong>
+        {{ data.vehiclesInMaintenance }}
+      </strong>
+    </div>
+
+    <div class="status-bar">
+      <div
+        class="status-fill maintenance"
+        [style.width.%]="
+          data.totalVehicles > 0
+            ? (data.vehiclesInMaintenance / data.totalVehicles) * 100
+            : 0
+        ">
+      </div>
+    </div>
+
+  </div>
+
+}
