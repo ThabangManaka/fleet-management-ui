@@ -225,4 +225,99 @@
 
   </div>
 
+
+
+}
+
+<!-- Operating Costs Chart -->
+<div class="section-title">
+  Operating Costs
+</div>
+
+@if (dashboard(); as data) {
+
+  <div class="cost-card">
+
+    <div class="cost-summary">
+
+      <div class="cost-item">
+        <span class="cost-label">Fuel</span>
+
+        <strong>
+          R {{ data.totalFuelCost | number:'1.2-2' }}
+        </strong>
+      </div>
+
+      <div class="cost-item">
+        <span class="cost-label">Maintenance</span>
+
+        <strong>
+          R {{ data.totalMaintenanceCost | number:'1.2-2' }}
+        </strong>
+      </div>
+
+      <div class="cost-item">
+        <span class="cost-label">Total</span>
+
+        <strong>
+          R {{ data.totalOperatingCost | number:'1.2-2' }}
+        </strong>
+      </div>
+
+    </div>
+
+
+    <div class="cost-chart">
+
+      <div class="cost-row">
+
+        <div class="cost-header">
+          <span>Fuel</span>
+
+          <span>
+            R {{ data.totalFuelCost | number:'1.2-2' }}
+          </span>
+        </div>
+
+        <div class="cost-bar">
+          <div
+            class="cost-fill fuel"
+            [style.width.%]="
+              data.totalOperatingCost > 0
+                ? (data.totalFuelCost / data.totalOperatingCost) * 100
+                : 0
+            ">
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="cost-row">
+
+        <div class="cost-header">
+          <span>Maintenance</span>
+
+          <span>
+            R {{ data.totalMaintenanceCost | number:'1.2-2' }}
+          </span>
+        </div>
+
+        <div class="cost-bar">
+          <div
+            class="cost-fill maintenance"
+            [style.width.%]="
+              data.totalOperatingCost > 0
+                ? (data.totalMaintenanceCost / data.totalOperatingCost) * 100
+                : 0
+            ">
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
 }
