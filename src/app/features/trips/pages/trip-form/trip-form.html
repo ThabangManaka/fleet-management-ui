@@ -1,1 +1,298 @@
-<p>trip-form works!</p>
+<div class="page-header">
+  <div>
+    <h1>
+      {{ isEditMode ? 'Edit Trip' : 'Add Trip' }}
+    </h1>
+
+    <p>
+      {{ isEditMode
+        ? 'Update trip information.'
+        : 'Create a new vehicle trip.' }}
+    </p>
+  </div>
+</div>
+
+<div
+  *ngIf="error"
+  class="error-message">
+
+  {{ errorMessage }}
+
+</div>
+
+<form
+  [formGroup]="form"
+  (ngSubmit)="submit()"
+  class="form-container">
+
+  <div class="form-grid">
+
+    <!-- Vehicle -->
+    <div class="form-group">
+      <label for="vehicleId">
+        Vehicle
+      </label>
+
+      <select
+        id="vehicleId"
+        formControlName="vehicleId">
+
+        <option value="">
+          Select vehicle
+        </option>
+
+        <option
+          *ngFor="let vehicle of vehicles"
+          [value]="vehicle.id">
+
+          {{ vehicle.registrationNumber }}
+          -
+          {{ vehicle.make }}
+          {{ vehicle.model }}
+
+        </option>
+
+      </select>
+
+      <small
+        *ngIf="
+          form.controls.vehicleId.touched &&
+          form.controls.vehicleId.invalid
+        "
+        class="validation-error">
+
+        Vehicle is required.
+
+      </small>
+    </div>
+
+    <!-- Driver -->
+    <div class="form-group">
+      <label for="driverId">
+        Driver
+      </label>
+
+      <select
+        id="driverId"
+        formControlName="driverId">
+
+        <option value="">
+          Select driver
+        </option>
+
+        <option
+          *ngFor="let driver of drivers"
+          [value]="driver.id">
+
+          {{ driver.firstName }}
+          {{ driver.lastName }}
+          -
+          {{ driver.employeeNumber }}
+
+        </option>
+
+      </select>
+
+      <small
+        *ngIf="
+          form.controls.driverId.touched &&
+          form.controls.driverId.invalid
+        "
+        class="validation-error">
+
+        Driver is required.
+
+      </small>
+    </div>
+
+    <!-- Start Location -->
+    <div class="form-group">
+      <label for="startLocation">
+        Start Location
+      </label>
+
+      <input
+        id="startLocation"
+        type="text"
+        formControlName="startLocation"
+        placeholder="Enter start location">
+
+      <small
+        *ngIf="
+          form.controls.startLocation.touched &&
+          form.controls.startLocation.invalid
+        "
+        class="validation-error">
+
+        Start location is required.
+
+      </small>
+    </div>
+
+    <!-- Destination -->
+    <div class="form-group">
+      <label for="destination">
+        Destination
+      </label>
+
+      <input
+        id="destination"
+        type="text"
+        formControlName="destination"
+        placeholder="Enter destination">
+
+      <small
+        *ngIf="
+          form.controls.destination.touched &&
+          form.controls.destination.invalid
+        "
+        class="validation-error">
+
+        Destination is required.
+
+      </small>
+    </div>
+
+    <!-- Start Date -->
+    <div class="form-group">
+      <label for="startDate">
+        Start Date
+      </label>
+
+      <input
+        id="startDate"
+        type="datetime-local"
+        formControlName="startDate">
+
+      <small
+        *ngIf="
+          form.controls.startDate.touched &&
+          form.controls.startDate.invalid
+        "
+        class="validation-error">
+
+        Start date is required.
+
+      </small>
+    </div>
+
+    <!-- End Date -->
+    <div class="form-group">
+      <label for="endDate">
+        End Date
+      </label>
+
+      <input
+        id="endDate"
+        type="datetime-local"
+        formControlName="endDate">
+    </div>
+
+    <!-- Start Mileage -->
+    <div class="form-group">
+      <label for="startMileage">
+        Start Mileage
+      </label>
+
+      <input
+        id="startMileage"
+        type="number"
+        min="0"
+        formControlName="startMileage">
+
+      <small
+        *ngIf="
+          form.controls.startMileage.touched &&
+          form.controls.startMileage.invalid
+        "
+        class="validation-error">
+
+        Start mileage must be 0 or greater.
+
+      </small>
+    </div>
+
+    <!-- End Mileage -->
+    <div class="form-group">
+      <label for="endMileage">
+        End Mileage
+      </label>
+
+      <input
+        id="endMileage"
+        type="number"
+        min="0"
+        formControlName="endMileage">
+    </div>
+
+    <!-- Status -->
+    <div class="form-group">
+      <label for="status">
+        Status
+      </label>
+
+      <select
+        id="status"
+        formControlName="status">
+
+        <option [value]="1">
+          Scheduled
+        </option>
+
+        <option [value]="2">
+          In Progress
+        </option>
+
+        <option [value]="3">
+          Completed
+        </option>
+
+        <option [value]="4">
+          Cancelled
+        </option>
+
+      </select>
+    </div>
+
+    <!-- Notes -->
+    <div class="form-group full-width">
+      <label for="notes">
+        Notes
+      </label>
+
+      <textarea
+        id="notes"
+        rows="4"
+        formControlName="notes"
+        placeholder="Enter notes">
+      </textarea>
+    </div>
+
+  </div>
+
+  <div class="form-actions">
+
+    <button
+      type="button"
+      class="btn-secondary"
+      (click)="cancel()"
+      [disabled]="loading">
+
+      Cancel
+
+    </button>
+
+    <button
+      type="submit"
+      class="btn-primary"
+      [disabled]="loading">
+
+      {{ loading
+        ? 'Saving...'
+        : (isEditMode ? 'Update Trip' : 'Create Trip') }}
+
+    </button>
+
+  </div>
+
+</form>

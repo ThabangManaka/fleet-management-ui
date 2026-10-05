@@ -19,44 +19,97 @@ import { FleetDashboard } from '../../models/fleet-dashboard.model';
 })
 export class DashboardPages implements OnInit {
 
-  private readonly dashboardService = inject(DashboardService);
+  private readonly dashboardService =
+    inject(DashboardService);
 
   dashboard = signal<FleetDashboard | null>(null);
 
   loading = signal(true);
   error = signal(false);
 
+  fromDate = signal('');
+  toDate = signal('');
+
   ngOnInit(): void {
     this.loadDashboard();
   }
 
-  private loadDashboard(): void {
+  loadDashboard(): void {
 
     console.log('Loading dashboard...');
 
     this.loading.set(true);
     this.error.set(false);
 
-    this.dashboardService.getDashboard().subscribe({
+    this.dashboardService
+      .getDashboard(
+        this.fromDate() || null,
+        this.toDate() || null
+      )
+      .subscribe({
 
-      next: (response) => {
+        next: (response) => {
 
-        console.log('Dashboard API response:', response);
+          console.log(
+            'Dashboard API response:',
+            response
+          );
 
-        this.dashboard.set(response);
-        this.loading.set(false);
+          this.dashboard.set(response);
+          this.loading.set(false);
 
-      },
+        },
 
-      error: (error) => {
+        error: (error) => {
 
-        console.error('Dashboard API error:', error);
+          console.error(
+            'Dashboard API error:',
+            error
+          );
 
-        this.loading.set(false);
-        this.error.set(true);
+          this.loading.set(false);
+          this.error.set(true);
 
-      }
+        }
 
-    });
+      });
+  }
+
+  applyDateFilter(): void {
+
+    if (
+      this.fromDate() &&
+      this.toDate() &&
+      this.fromDate() > this.toDate()
+    ) {
+      this.error.set(true);
+      return;
+    }
+
+    this.loadDashboard();
+  }
+
+  clearDateFilter(): void {
+
+    this.fromDate.set('');
+    this.toDate.set('');
+
+    this.loadDashboard();
+  }
+
+  setFromDate(event: Event): void {
+
+    const input =
+      event.target as HTMLInputElement;
+
+    this.fromDate.set(input.value);
+  }
+
+  setToDate(event: Event): void {
+
+    const input =
+      event.target as HTMLInputElement;
+
+    this.toDate.set(input.value);
   }
 }
