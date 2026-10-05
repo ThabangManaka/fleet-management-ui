@@ -321,3 +321,109 @@
   </div>
 
 }
+<!-- Trip Performance -->
+<div class="section-title">
+  Trip Performance
+</div>
+
+@if (dashboard(); as data) {
+
+  <div class="trip-card">
+
+    <div class="trip-summary">
+
+      <div class="trip-item">
+        <span class="trip-icon">🚚</span>
+
+        <span class="trip-label">
+          Total Trips
+        </span>
+
+        <strong>
+          {{ data.totalTrips }}
+        </strong>
+      </div>
+
+
+      <div class="trip-item">
+        <span class="trip-icon">📏</span>
+
+        <span class="trip-label">
+          Distance Travelled
+        </span>
+
+        <strong>
+          {{ data.totalDistanceTravelled | number:'1.0-2' }} km
+        </strong>
+      </div>
+
+
+      <div class="trip-item">
+        <span class="trip-icon">📊</span>
+
+        <span class="trip-label">
+          Average Distance / Trip
+        </span>
+
+        <strong>
+          {{ data.averageDistancePerTrip | number:'1.0-2' }} km
+        </strong>
+      </div>
+
+    </div>
+
+
+    <div class="trip-metrics">
+
+      <div class="metric-row">
+
+        <div class="metric-header">
+          <span>Total Distance</span>
+
+          <strong>
+            {{ data.totalDistanceTravelled | number:'1.0-2' }} km
+          </strong>
+        </div>
+
+        <div class="metric-bar">
+          <div
+            class="metric-fill distance"
+            [style.width.%]="
+              data.totalDistanceTravelled > 0
+                ? 100
+                : 0
+            ">
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="metric-row">
+
+        <div class="metric-header">
+          <span>Average Distance / Trip</span>
+
+          <strong>
+            {{ data.averageDistancePerTrip | number:'1.0-2' }} km
+          </strong>
+        </div>
+
+        <div class="metric-bar">
+          <div
+            class="metric-fill average"
+            [style.width.%]="
+              data.averageDistancePerTrip > 0
+                ? 100
+                : 0
+            ">
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+}
