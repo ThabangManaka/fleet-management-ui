@@ -6,59 +6,51 @@
       <p>Fleet overview and operational performance</p>
     </div>
   </div>
-
-  <!-- Date Filters -->
   <div class="filter-card">
 
-    <div class="filter-field">
-      <label for="fromDate">
-        From Date
-      </label>
+  <div class="filter-field">
+    <label for="fromDate">From Date</label>
 
-      <input
-        id="fromDate"
-        type="date"
-        [value]="fromDate()"
-        (change)="setFromDate($event)">
-    </div>
+    <input
+      id="fromDate"
+      type="date"
+      [value]="fromDate()"
+      (change)="setFromDate($event)"
+    />
+  </div>
 
-    <div class="filter-field">
-      <label for="toDate">
-        To Date
-      </label>
+  <div class="filter-field">
+    <label for="toDate">To Date</label>
 
-      <input
-        id="toDate"
-        type="date"
-        [value]="toDate()"
-        (change)="setToDate($event)">
-    </div>
+    <input
+      id="toDate"
+      type="date"
+      [value]="toDate()"
+      (change)="setToDate($event)"
+    />
+  </div>
 
-    <div class="filter-actions">
+  <div class="filter-actions">
 
-      <button
-        type="button"
-        class="btn-primary"
-        (click)="applyDateFilter()"
-        [disabled]="loading()">
+    <button
+      type="button"
+      class="btn-primary"
+      (click)="applyDateFilter()"
+      [disabled]="loading()">
+      Apply Filter
+    </button>
 
-        Apply Filter
-
-      </button>
-
-      <button
-        type="button"
-        class="btn-secondary"
-        (click)="clearDateFilter()"
-        [disabled]="loading()">
-
-        Clear
-
-      </button>
-
-    </div>
+    <button
+      type="button"
+      class="btn-secondary"
+      (click)="clearDateFilter()"
+      [disabled]="loading()">
+      Clear
+    </button>
 
   </div>
+
+</div>
 
   @if (loading()) {
 
@@ -74,7 +66,81 @@
 
   } @else if (dashboard(); as data) {
 
-    <!-- keep the rest of your existing dashboard here -->
+    <div class="stats-grid">
+
+      <div class="stat-card">
+        <span class="label">Total Vehicles</span>
+
+        <strong>
+          {{ data.totalVehicles }}
+        </strong>
+
+        <span class="description">
+          Fleet vehicles
+        </span>
+      </div>
+
+      <div class="stat-card">
+        <span class="label">Available Vehicles</span>
+
+        <strong>
+          {{ data.availableVehicles }}
+        </strong>
+
+        <span class="description">
+          Ready for assignment
+        </span>
+      </div>
+
+      <div class="stat-card">
+        <span class="label">Assigned Vehicles</span>
+
+        <strong>
+          {{ data.assignedVehicles }}
+        </strong>
+
+        <span class="description">
+          Currently assigned
+        </span>
+      </div>
+
+      <div class="stat-card">
+        <span class="label">Vehicles in Maintenance</span>
+
+        <strong>
+          {{ data.vehiclesInMaintenance }}
+        </strong>
+
+        <span class="description">
+          Maintenance status
+        </span>
+      </div>
+
+      <div class="stat-card">
+        <span class="label">Total Drivers</span>
+
+        <strong>
+          {{ data.totalDrivers }}
+        </strong>
+
+        <span class="description">
+          Registered drivers
+        </span>
+      </div>
+
+      <div class="stat-card">
+        <span class="label">Active Drivers</span>
+
+        <strong>
+          {{ data.activeDrivers }}
+        </strong>
+
+        <span class="description">
+          Currently active
+        </span>
+      </div>
+
+    </div>
 
   }
 

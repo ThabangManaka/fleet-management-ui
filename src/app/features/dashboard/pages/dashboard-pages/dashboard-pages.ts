@@ -36,8 +36,6 @@ export class DashboardPages implements OnInit {
 
   loadDashboard(): void {
 
-    console.log('Loading dashboard...');
-
     this.loading.set(true);
     this.error.set(false);
 
@@ -50,14 +48,16 @@ export class DashboardPages implements OnInit {
 
         next: (response) => {
 
-          console.log(
-            'Dashboard API response:',
-            response
-          );
+          console.log('Dashboard API response:', response);
 
           this.dashboard.set(response);
-          this.loading.set(false);
 
+          console.log(
+            'Dashboard signal:',
+            this.dashboard()
+          );
+
+          this.loading.set(false);
         },
 
         error: (error) => {
@@ -69,32 +69,9 @@ export class DashboardPages implements OnInit {
 
           this.loading.set(false);
           this.error.set(true);
-
         }
 
       });
-  }
-
-  applyDateFilter(): void {
-
-    if (
-      this.fromDate() &&
-      this.toDate() &&
-      this.fromDate() > this.toDate()
-    ) {
-      this.error.set(true);
-      return;
-    }
-
-    this.loadDashboard();
-  }
-
-  clearDateFilter(): void {
-
-    this.fromDate.set('');
-    this.toDate.set('');
-
-    this.loadDashboard();
   }
 
   setFromDate(event: Event): void {
@@ -111,5 +88,29 @@ export class DashboardPages implements OnInit {
       event.target as HTMLInputElement;
 
     this.toDate.set(input.value);
+  }
+
+  applyDateFilter(): void {
+
+    const from = this.fromDate();
+    const to = this.toDate();
+
+    if (from && to && from > to) {
+      console.error(
+        'From date cannot be later than To date.'
+      );
+
+      return;
+    }
+
+    this.loadDashboard();
+  }
+
+  clearDateFilter(): void {
+
+    this.fromDate.set('');
+    this.toDate.set('');
+
+    this.loadDashboard();
   }
 }
